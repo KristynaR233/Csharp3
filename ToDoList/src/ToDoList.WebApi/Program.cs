@@ -5,7 +5,8 @@ app.MapGet("/", () => "Hello World!");
 app.MapGet("/test", () => "This is a test!");
 app.MapGet("/czechitas", () => "Vitej na kurzu");
 app.MapGet("/pozdrav/{jmeno}", (string jmeno) => $"Ahoj {jmeno}!");
-app.MapGet("/secti/{a:int}/{b:int}", (int a, int b) => $"Vysledek {a} + {b} = {a+b}");
+app.MapGet("/secti/{a:int}/{b:int}", (int a, int b) => $"Vysledek {a} + {b} = {a + b}");
+app.MapGet("/nazdarSvete/{noveJmeno}", (string noveJmeno) => $"Ahoj {noveJmeno}");
 
 
 app.Run();
