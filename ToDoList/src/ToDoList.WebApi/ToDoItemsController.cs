@@ -8,12 +8,27 @@ using ToDoList.Domain.Models;
 [ApiController]
 public class ToDoItemsController : ControllerBase
 {
-    private static readonly List<ToDoItem> items = [];
+    private static List<ToDoItem> items = [];
     [HttpPost]
     public IActionResult Create(ToDoItemCreateRequestDto request) // pouzijeme DTO - Data Transfer Object
     {
-        return Ok();
-    }
+        var item = request.ToDomain();
+
+        try
+        {
+            item.ToDoItemId = items.Count == 0 ? 1 : items.Max(o => o.ToDoItemId) + 1;
+            items.Add(item);
+
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);
+
+        }
+
+
+        return Created();
+        }
     [HttpGet]
     public IActionResult Read()
     {
