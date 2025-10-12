@@ -33,8 +33,25 @@ public class ToDoItemsController : ControllerBase
     [HttpGet]
     public IActionResult Read()
     {
-        return Ok();
-    }
+        var response = new List<ToDoItemGetResponseDto>();
+        try
+        {
+            foreach (var iresponse in items)
+            {
+                var i = ToDoItemGetResponseDto.FromDomain(iresponse);
+                response.Add(i);
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);
+
+        }
+        return (IActionResult)response;
+
+        }
 
     [HttpGet("{toDoItemId:int}")]
     public IActionResult ReadById(int toDoItemId)
