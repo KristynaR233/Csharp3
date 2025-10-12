@@ -59,7 +59,10 @@ public class ToDoItemsController : ControllerBase
     {
         try
         {
-            throw new Exception("Neco se opravdu nepovedlo.");
+            var responseID = items.Find(x => x.ToDoItemId.Equals(toDoItemId));
+
+
+
         }
         catch (Exception ex)
         {
@@ -67,6 +70,8 @@ public class ToDoItemsController : ControllerBase
         }
         return Ok();
     }
+
+
 
     [HttpPut("{toDoItemId:int}")]
     public IActionResult UpdateById(int toDoItemId, [FromBody] ToDoItemUpdateRequestDto request)
