@@ -9,6 +9,8 @@ using ToDoList.Domain.Models;
 public class ToDoItemsController : ControllerBase
 {
     private static List<ToDoItem> items = [];
+    private IActionResult responseDto;
+
     [HttpPost]
     public IActionResult Create(ToDoItemCreateRequestDto request) // pouzijeme DTO - Data Transfer Object
     {
@@ -60,17 +62,15 @@ public class ToDoItemsController : ControllerBase
         try
         {
             var responseID = items.Find(x => x.ToDoItemId.Equals(toDoItemId));
-
-
+            ToDoItemGetResponseDto responseDto = ToDoItemGetResponseDto.FromDomain(responseID);
 
         }
         catch (Exception ex)
         {
             return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);//500
         }
-        return Ok();
+        return responseDto;
     }
-
 
 
     [HttpPut("{toDoItemId:int}")]
