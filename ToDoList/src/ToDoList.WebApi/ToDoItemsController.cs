@@ -28,12 +28,14 @@ public class ToDoItemsController : ControllerBase
 
 
         return Created();
-        }
+    }
+
     [HttpGet]
     public IActionResult Read()
     {
         return Ok();
     }
+
     [HttpGet("{toDoItemId:int}")]
     public IActionResult ReadById(int toDoItemId)
 
@@ -48,12 +50,14 @@ public class ToDoItemsController : ControllerBase
         }
         return Ok();
     }
+
     [HttpPut("{toDoItemId:int}")]
-    public IActionResult UpdateById(int toDoItemId, [FromBody]ToDoItemUpdateRequestDto request)
+    public IActionResult UpdateById(int toDoItemId, [FromBody] ToDoItemUpdateRequestDto request)
     {
 
         return Ok();
     }
+
     [HttpDelete("{toDoItemId:int}")]
     public IActionResult DeleteById(int toDoItemId)
     {
