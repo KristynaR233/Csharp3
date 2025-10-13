@@ -1,5 +1,7 @@
 namespace ToDoList.WebApi;
 
+using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Domain.DTOs;
 using ToDoList.Domain.Models;
@@ -51,7 +53,7 @@ public class ToDoItemsController : ControllerBase
             return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);
 
         }
-        return (IActionResult)response;
+        return Ok (response);
 
         }
 
@@ -65,12 +67,17 @@ public class ToDoItemsController : ControllerBase
             ToDoItemGetResponseDto responseDto = ToDoItemGetResponseDto.FromDomain(responseID);
 
         }
+        catch (FileNotFoundException)
+        {
+            throw new ArgumentException("Id is not found!");
+        }
         catch (Exception ex)
         {
             return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);//500
         }
-        return responseDto;
+        return Ok (responseDto);
     }
+
 
 
     [HttpPut("{toDoItemId:int}")]
