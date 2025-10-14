@@ -1,8 +1,10 @@
 namespace ToDoList.WebApi;
 
+using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using ToDoList.Domain.DTOs;
 using ToDoList.Domain.Models;
 
@@ -80,22 +82,49 @@ public class ToDoItemsController : ControllerBase
         {
             return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);//500
         }
-        return Ok (responseDto);
+        return Ok(responseDto);
+
+             }
+        public IActionResult UpdateById(int toDoItemId, [FromBody] ToDoItemUpdateRequestDto request)
+        {
+        try
+        {
+            var itemToUpdate = items.Find(x => x.ToDoItemId.Equals(toDoItemId));
+            if (items == null)
+            {
+                return NotFound();
+            }
+
+            itemToUpdate.Name = request.Name;
+            itemToUpdate.Description = request.Description;
+            itemToUpdate.IsCompleted = request.IsCompleted;
+            var responseDto = ToDoItemGetResponseDto.FromDomain(itemToUpdate);
+             return Ok(responseDto);
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);//500
+        }
     }
 
-
-
-    [HttpPut("{toDoItemId:int}")]
-    public IActionResult UpdateById(int toDoItemId, [FromBody] ToDoItemUpdateRequestDto request)
-    {
-
-        return Ok();
-    }
 
     [HttpDelete("{toDoItemId:int}")]
     public IActionResult DeleteById(int toDoItemId)
     {
-        return Ok();
+        try
+        {
+            var itemToDelete = items.Find(x => x.ToDoItemId.Equals(toDoItemId));
+            if (items == null)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);//500
+        }
+       
     }
 }
 
