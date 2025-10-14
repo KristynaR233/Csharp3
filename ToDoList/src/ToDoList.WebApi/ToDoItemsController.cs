@@ -61,10 +61,15 @@ public class ToDoItemsController : ControllerBase
     public IActionResult ReadById(int toDoItemId)
 
     {
+        ToDoItemGetResponseDto responseDto;
         try
         {
             var responseID = items.Find(x => x.ToDoItemId.Equals(toDoItemId));
-            ToDoItemGetResponseDto responseDto = ToDoItemGetResponseDto.FromDomain(responseID);
+            if(responseID == null)
+            {
+                return NotFound();
+            }
+            responseDto = ToDoItemGetResponseDto.FromDomain(responseID);
 
         }
         catch (FileNotFoundException)
