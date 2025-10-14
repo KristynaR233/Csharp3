@@ -31,7 +31,7 @@ public class ToDoItemsController : ControllerBase
         }
 
 
-        return Created();
+        return CreatedAtAction(actionName: nameof(ReadById), routeValues: new { ToDoItemId = item.ToDoItemId}, value: ToDoItemGetResponseDto.FromDomain(item));
     }
 
     [HttpGet]
