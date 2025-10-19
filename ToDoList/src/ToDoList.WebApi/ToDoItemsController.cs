@@ -118,13 +118,14 @@ public class ToDoItemsController : ControllerBase
             {
                 return NotFound();
             }
+            items.Remove(itemToDelete);
             return NoContent();
         }
         catch (Exception ex)
         {
             return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);//500
         }
-       
+
     }
 }
 
