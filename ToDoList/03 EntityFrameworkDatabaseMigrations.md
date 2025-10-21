@@ -21,7 +21,7 @@
 1. ⏩ Creating a migration (use explicit name)
 
     ```cmd
-    dotnet ef migrations add <your_migration_name_here>
+    dotnet ef database update
     ```
 
 2. ➡️ Updating database and creating schema

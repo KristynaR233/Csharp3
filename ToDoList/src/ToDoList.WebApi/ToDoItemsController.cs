@@ -3,11 +3,26 @@ namespace ToDoList.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Domain.DTOs;
 using ToDoList.Domain.Models;
+using ToDoList.Persistence;
 
 [Route("api/[controller]")] // localshost:5000/api/ToDoItems
 [ApiController]
 public class ToDoItemsController : ControllerBase
 {
+    public readonly List<ToDoItem> items = [];
+    private readonly ToDoItemsContext context;
+
+    public ToDoItemsController (ToDoItemsContext context)
+    {
+        this.context = context;
+        ToDoItem item = new ToDoItem
+        {
+            Name = "Prvni ukol",
+            Description = "Prvni popisek",
+            IsCompleted = false,
+        };
+        
+    }
     [HttpPost]
     public IActionResult Create(ToDoItemCreateRequestDto request) // pouzijeme DTO - Data Transfer Object
     {
