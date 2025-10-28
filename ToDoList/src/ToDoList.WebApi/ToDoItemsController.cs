@@ -86,19 +86,19 @@ public class ToDoItemsController : ControllerBase
 
              }
         public IActionResult UpdateById(int toDoItemId, [FromBody] ToDoItemUpdateRequestDto request)
-        {
+    {
+        var updatedItem = request.ToDomain();
         try
         {
-            var itemToUpdate = items.Find(x => x.ToDoItemId.Equals(toDoItemId));
-            if (items == null)
+            var itemToUpdate = items.FindIndex(x => x.ToDoItemId == toDoItemId);
+            if (itemToUpdate == -1)
             {
                 return NotFound();
             }
+            updatedItem.ToDoItemId = toDoItemId;
+            items[itemIndexToUpdate] = updatedItem;
 
-            itemToUpdate.Name = request.Name;
-            itemToUpdate.Description = request.Description;
-            itemToUpdate.IsCompleted = request.IsCompleted;
-            var responseDto = ToDoItemGetResponseDto.FromDomain(itemToUpdate);
+            
              return Ok(responseDto);
         }
         catch (Exception ex)
