@@ -1,28 +1,31 @@
 using System;
 using ToDoList.Domain.Models;
 using ToDoList.WebApi;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ToDoList.Test;
 
 public class GetTests
-{   [Fact]
+{
+    [Fact]
     public void Get_AllItems_ReturnsAllItems()
     {
         //Arrange
         var toDoItem1 = new ToDoItem
         {
             ToDoItemId = 1,
-            Name = "Jmeno2",
-            Description = "Popis2",
+            Name = "Jmeno1",
+            Description = "Popis1",
             IsCompleted = false
         };
-         var toDoItem2 = new ToDoItem
+        var toDoItem2 = new ToDoItem
         {
             ToDoItemId = 2,
-            Name = "Jmeno",
-            Description = "Popis",
-            IsCompleted = false
+            Name = "Jmeno2",
+            Description = "Popis2",
+            IsCompleted = true
         };
+
         var controller = new ToDoItemsController();
         controller.AddItemToStorage(toDoItem1);
         controller.AddItemToStorage(toDoItem2);
@@ -36,6 +39,9 @@ public class GetTests
 
         var firstToDo = value.First();
         Assert.Equal(1, firstToDo.Id);
+        Assert.Equal(toDoItem1.Name, firstToDo.Name);
+        Assert.Equal(toDoItem1.Description, firstToDo.Description);
+        Assert.Equal(toDoItem1.IsCompleted, firstToDo.IsCompleted);
 
 
 
