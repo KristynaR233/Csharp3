@@ -96,9 +96,9 @@ public class ToDoItemsController : ControllerBase
                 return NotFound();
             }
             updatedItem.ToDoItemId = toDoItemId;
-            items[itemIndexToUpdate] = updatedItem;
+            items[itemToUpdate] = updatedItem;
 
-            
+
              return Ok(responseDto);
         }
         catch (Exception ex)
