@@ -33,7 +33,7 @@ public class ToDoItemsController : ControllerBase
         }
 
 
-        return CreatedAtAction(actionName: nameof(ReadById), routeValues: new { ToDoItemId = item.ToDoItemId}, value: ToDoItemGetResponseDto.FromDomain(item));
+        return CreatedAtAction(actionName: nameof(ReadById), routeValues: new { ToDoItemId = item.ToDoItemId }, value: ToDoItemGetResponseDto.FromDomain(item));
     }
 
     [HttpGet]
@@ -55,9 +55,9 @@ public class ToDoItemsController : ControllerBase
             return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);
 
         }
-        return Ok (response);
+        return Ok(response);
 
-        }
+    }
 
     [HttpGet("{toDoItemId:int}")]
     public IActionResult ReadById(int toDoItemId)
@@ -67,7 +67,7 @@ public class ToDoItemsController : ControllerBase
         try
         {
             var responseID = items.Find(x => x.ToDoItemId.Equals(toDoItemId));
-            if(responseID == null)
+            if (responseID == null)
             {
                 return NotFound();
             }
@@ -84,8 +84,9 @@ public class ToDoItemsController : ControllerBase
         }
         return Ok(responseDto);
 
-             }
-        public IActionResult UpdateById(int toDoItemId, [FromBody] ToDoItemUpdateRequestDto request)
+    }
+    [HttpPut("{toDoItemId:int}")]
+    public IActionResult UpdateById(int toDoItemId, [FromBody] ToDoItemUpdateRequestDto request)
     {
         var updatedItem = request.ToDomain();
         try
@@ -99,7 +100,7 @@ public class ToDoItemsController : ControllerBase
             items[itemToUpdate] = updatedItem;
 
 
-             return Ok(responseDto);
+            return Ok(responseDto);
         }
         catch (Exception ex)
         {
