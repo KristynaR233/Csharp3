@@ -1,5 +1,6 @@
 namespace ToDoList.WebApi;
 
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -127,6 +128,10 @@ public class ToDoItemsController : ControllerBase
             return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);//500
         }
 
+    }
+    public void AddItemToStorage(ToDoItem item)
+    {
+        items.Add(item);
     }
 }
 
