@@ -25,7 +25,7 @@ public class PostTests
         var value = result.GetValue();
 
         // Assert
-        Assert.IsType<CreatedAtActionResult>(result);
+        Assert.IsType<ToDoItemCreateRequestDto>(value);
         Assert.NotNull(value);
 
         Assert.Equal(request.Description, value.Description);

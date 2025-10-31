@@ -17,7 +17,7 @@ public class ToDoItemsController : ControllerBase
     private IActionResult responseDto;
 
     [HttpPost]
-    public IActionResult Create(ToDoItemCreateRequestDto request) // pouzijeme DTO - Data Transfer Object
+    public ActionResult<ToDoItemCreateRequestDto> Create(ToDoItemCreateRequestDto request) // pouzijeme DTO - Data Transfer Object
     {
         var item = request.ToDomain();
 
@@ -38,7 +38,7 @@ public class ToDoItemsController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Read()
+    public ActionResult<IEnumerable<ToDoItemGetResponseDto>> Read()
     {
         var response = new List<ToDoItemGetResponseDto>();
         try
@@ -61,7 +61,7 @@ public class ToDoItemsController : ControllerBase
     }
 
     [HttpGet("{toDoItemId:int}")]
-    public IActionResult ReadById(int toDoItemId)
+     public ActionResult<ToDoItemGetResponseDto> ReadById(int toDoItemId)
 
     {
         ToDoItemGetResponseDto responseDto;
@@ -87,7 +87,7 @@ public class ToDoItemsController : ControllerBase
 
     }
     [HttpPut("{toDoItemId:int}")]
-    public IActionResult UpdateById(int toDoItemId, [FromBody] ToDoItemUpdateRequestDto request)
+    public ActionResult UpdateById(int toDoItemId, [FromBody] ToDoItemUpdateRequestDto request)
     {
         var updatedItem = request.ToDomain();
         try
@@ -111,7 +111,7 @@ public class ToDoItemsController : ControllerBase
 
 
     [HttpDelete("{toDoItemId:int}")]
-    public IActionResult DeleteById(int toDoItemId)
+    public ActionResult DeleteById(int toDoItemId)
     {
         try
         {

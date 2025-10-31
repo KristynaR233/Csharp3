@@ -11,7 +11,7 @@ public class GetTests
     public void Get_AllItems_ReturnsAllItems()
     {
         //Arrange
-       
+
         var toDoItem1 = new ToDoItem
         {
             ToDoItemId = 1,
@@ -31,7 +31,6 @@ public class GetTests
         controller.AddItemToStorage(toDoItem1);
         controller.AddItemToStorage(toDoItem2);
         //Act
-        IActionResult actionResult = controller.ReadById(1);
         var result = controller.Read();
         var value = result.GetValue();
 
