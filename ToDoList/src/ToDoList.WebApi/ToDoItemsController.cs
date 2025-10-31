@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
 using ToDoList.Domain.DTOs;
 using ToDoList.Domain.Models;
+using System;
 
 [Route("api/[controller]")] // localshost:5000/api/ToDoItems
 [ApiController]
@@ -132,6 +133,11 @@ public class ToDoItemsController : ControllerBase
     public void AddItemToStorage(ToDoItem item)
     {
         items.Add(item);
+    }
+
+    public void ClearStorage()
+    {
+        items.Clear();
     }
 }
 

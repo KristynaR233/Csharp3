@@ -5,8 +5,9 @@ using ToDoList.WebApi;
 
 namespace ToDoList.Test;
 
-public class DeleteTests
+public class DeleteTests : IDisposable
 {
+    private readonly ToDoItemsController _controller;
     [Fact]
     public void Delete_ValidId_ReturnsNoContent()
     {
@@ -29,7 +30,10 @@ public class DeleteTests
         //Assert
         Assert.IsType<NoContentResult>(result);
 
+
     }
+
+
 
     [Fact]
     public void Delete_ValidId_ReturnsNotFound()
@@ -52,6 +56,14 @@ public class DeleteTests
 
         // Assert
         Assert.IsType<NotFoundResult>(result);
-       
+
     }
+        public void Dispose ()
+    {
+        _controller.ClearStorage();
+    }
+
+
+
+
  }
