@@ -3,11 +3,13 @@ using ToDoList.Domain.Models;
 using ToDoList.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Domain.DTOs;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace ToDoList.Test;
 
-public class PostTests
+public class PostTests : IDisposable
 {
+    private readonly ToDoItemsController _controller;
     [Fact]
     public void Post_ValidRequest_ReturnNewItem()
     {
@@ -32,5 +34,10 @@ public class PostTests
         Assert.Equal(request.Name, value.Name);
         Assert.Equal(request.IsCompleted, value.IsCompleted);
     }
+             public void Dispose ()
+    {
+        _controller.ClearStorage();
+    }
+
 
 }

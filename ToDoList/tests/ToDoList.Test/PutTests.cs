@@ -6,11 +6,13 @@ using ToDoList.Domain.DTOs;
 
 namespace ToDoList.Test;
 
-public class PutTests
+public class PutTests : IDisposable
 {
+    private readonly ToDoItemsController _controller;
     [Fact]
     public void Put_ValidId_ReturnsNoContent()
     {
+       
         // Arrange
         var toDoItem = new ToDoItem
         {
@@ -66,5 +68,11 @@ IsCompleted: true
         // Assert
         Assert.IsType<NotFoundResult>(result);
     }
+
+             public void Dispose ()
+    {
+        _controller.ClearStorage();
+    }
+
 
 }

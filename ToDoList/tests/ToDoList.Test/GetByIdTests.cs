@@ -5,8 +5,10 @@ using ToDoList.WebApi;
 
 namespace ToDoList.Test;
 
-public class GetByIdTests
-{ [Fact]
+public class GetByIdTests : IDisposable
+{ private readonly ToDoItemsController _controller;
+
+    [Fact]
     public void GetById_ValidId_ReturnsItem()
     {
         // Arrange
@@ -58,4 +60,11 @@ public class GetByIdTests
         // Assert
         Assert.IsType<NotFoundResult>(result);
     }
+
+          public void Dispose ()
+    {
+        _controller.ClearStorage();
+    }
+
+
 }

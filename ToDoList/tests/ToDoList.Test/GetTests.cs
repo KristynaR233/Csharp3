@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ToDoList.Test;
 
-public class GetTests
+public class GetTests : IDisposable
 {
+    private readonly ToDoItemsController _controller;
+
     [Fact]
     public void Get_AllItems_ReturnsAllItems()
     {
@@ -48,5 +50,11 @@ public class GetTests
 
 
     }
+
+          public void Dispose ()
+    {
+        _controller.ClearStorage();
+    }
+
 
 }
