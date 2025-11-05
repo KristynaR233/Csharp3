@@ -64,8 +64,7 @@ public class ToDoItemsController : ControllerBase
     [HttpGet("{toDoItemId:int}")]
      public ActionResult<ToDoItemGetResponseDto> ReadById(int toDoItemId)
 
-    {
-        ToDoItemGetResponseDto responseDto;
+    {      ToDoItemGetResponseDto responseDto;
         try
         {
             var responseID = items.Find(x => x.ToDoItemId.Equals(toDoItemId));
@@ -96,7 +95,7 @@ public class ToDoItemsController : ControllerBase
             var itemToUpdate = items.FindIndex(x => x.ToDoItemId == toDoItemId);
             if (itemToUpdate == -1)
             {
-                return NotFound();
+                return NotFound("Item not found");
             }
             updatedItem.ToDoItemId = toDoItemId;
             items[itemToUpdate] = updatedItem;

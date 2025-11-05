@@ -3,6 +3,7 @@ using ToDoList.Domain.Models;
 using ToDoList.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Domain.DTOs;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace ToDoList.Test;
 
@@ -36,7 +37,7 @@ IsCompleted: true
         var result = controller.UpdateById(toDoItem.ToDoItemId, request);
 
         // Assert
-        Assert.IsType<NoContentResult>(request);
+        Assert.IsType<NotFoundObjectResult>(result);
     }
 
     [Fact]

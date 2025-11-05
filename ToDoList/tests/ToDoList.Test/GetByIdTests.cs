@@ -7,7 +7,7 @@ namespace ToDoList.Test;
 
 public class GetByIdTests : IDisposable
 {
-    private readonly ToDoItemsController _controller;
+    private readonly ToDoItemsController _controller = new ToDoItemsController();
 
     [Fact]
     public void GetById_ValidId_ReturnsItem()
@@ -29,7 +29,7 @@ public class GetByIdTests : IDisposable
         var value = result.GetValue();
 
         // Assert
-        Assert.IsType<OkObjectResult>(result);
+        Assert.IsType<OkObjectResult>(result.Result);
         Assert.NotNull(value);
 
         Assert.Equal(1, value.Id);
@@ -59,7 +59,7 @@ public class GetByIdTests : IDisposable
         var result = controller.ReadById(invalidId);
 
         // Assert
-        Assert.IsType<NoContentResult>(result);
+        Assert.IsType<NotFoundResult>(result.Result);
     }
 
     public void Dispose()
