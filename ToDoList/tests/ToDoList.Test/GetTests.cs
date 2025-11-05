@@ -7,7 +7,7 @@ namespace ToDoList.Test;
 
 public class GetTests : IDisposable
 {
-    private readonly ToDoItemsController _controller;
+    private readonly ToDoItemsController _controller = new ToDoItemsController();
 
     [Fact]
     public void Get_AllItems_ReturnsAllItems()
@@ -51,7 +51,7 @@ public class GetTests : IDisposable
 
     }
 
-          public void Dispose ()
+    public void Dispose()
     {
         _controller.ClearStorage();
     }

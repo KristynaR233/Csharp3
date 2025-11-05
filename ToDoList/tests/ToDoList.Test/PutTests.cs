@@ -8,11 +8,11 @@ namespace ToDoList.Test;
 
 public class PutTests : IDisposable
 {
-    private readonly ToDoItemsController _controller;
+    private readonly ToDoItemsController _controller = new ToDoItemsController();
     [Fact]
     public void Put_ValidId_ReturnsNoContent()
     {
-       
+
         // Arrange
         var toDoItem = new ToDoItem
         {
@@ -69,7 +69,7 @@ IsCompleted: true
         Assert.IsType<NotFoundResult>(result);
     }
 
-             public void Dispose ()
+    public void Dispose()
     {
         _controller.ClearStorage();
     }

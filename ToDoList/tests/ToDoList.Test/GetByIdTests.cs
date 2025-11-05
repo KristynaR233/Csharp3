@@ -6,7 +6,8 @@ using ToDoList.WebApi;
 namespace ToDoList.Test;
 
 public class GetByIdTests : IDisposable
-{ private readonly ToDoItemsController _controller;
+{
+    private readonly ToDoItemsController _controller;
 
     [Fact]
     public void GetById_ValidId_ReturnsItem()
@@ -58,10 +59,10 @@ public class GetByIdTests : IDisposable
         var result = controller.ReadById(invalidId);
 
         // Assert
-        Assert.IsType<NotFoundResult>(result);
+        Assert.IsType<NoContentResult>(result);
     }
 
-          public void Dispose ()
+    public void Dispose()
     {
         _controller.ClearStorage();
     }

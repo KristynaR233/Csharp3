@@ -9,7 +9,7 @@ namespace ToDoList.Test;
 
 public class PostTests : IDisposable
 {
-    private readonly ToDoItemsController _controller;
+    private readonly ToDoItemsController _controller = new ToDoItemsController();
     [Fact]
     public void Post_ValidRequest_ReturnNewItem()
     {
@@ -34,7 +34,7 @@ public class PostTests : IDisposable
         Assert.Equal(request.Name, value.Name);
         Assert.Equal(request.IsCompleted, value.IsCompleted);
     }
-             public void Dispose ()
+    public void Dispose()
     {
         _controller.ClearStorage();
     }

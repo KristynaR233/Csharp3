@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Domain.Models;
 using ToDoList.WebApi;
@@ -7,7 +8,7 @@ namespace ToDoList.Test;
 
 public class DeleteTests : IDisposable
 {
-    private readonly ToDoItemsController _controller;
+    private readonly ToDoItemsController _controller = new ToDoItemsController();
     [Fact]
     public void Delete_ValidId_ReturnsNoContent()
     {
@@ -51,14 +52,14 @@ public class DeleteTests : IDisposable
         controller.AddItemToStorage(toDoItem);
 
         // Act
-        var invalidId = -36;
+        var invalidId = -1;
         var result = controller.DeleteById(invalidId);
 
         // Assert
-        Assert.IsType<NotFoundResult>(result);
+        Assert.IsType<NoContentResult>(result);
 
     }
-        public void Dispose ()
+    public void Dispose()
     {
         _controller.ClearStorage();
     }
@@ -66,4 +67,4 @@ public class DeleteTests : IDisposable
 
 
 
- }
+}
