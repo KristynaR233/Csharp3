@@ -37,7 +37,7 @@ IsCompleted: true
         var result = controller.UpdateById(toDoItem.ToDoItemId, request);
 
         // Assert
-        Assert.IsType<NotFoundObjectResult>(result);
+        Assert.IsType<NoContentResult>(result);
     }
 
     [Fact]

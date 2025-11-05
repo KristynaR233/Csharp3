@@ -22,12 +22,12 @@ public class PostTests : IDisposable
         );
 
         // Act
-
         var result = controller.Create(request);
         var value = result.GetValue();
 
+
         // Assert
-        Assert.IsType<ToDoItemCreateRequestDto>(value);
+        Assert.IsType<ToDoItemCreateRequestDto>(result.Value);
         Assert.NotNull(value);
 
         Assert.Equal(request.Description, value.Description);

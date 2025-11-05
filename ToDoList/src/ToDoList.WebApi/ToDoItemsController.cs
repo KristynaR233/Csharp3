@@ -95,18 +95,19 @@ public class ToDoItemsController : ControllerBase
             var itemToUpdate = items.FindIndex(x => x.ToDoItemId == toDoItemId);
             if (itemToUpdate == -1)
             {
-                return NotFound("Item not found");
+                return NotFound();
             }
+
             updatedItem.ToDoItemId = toDoItemId;
             items[itemToUpdate] = updatedItem;
 
-
-            return Ok(responseDto);
+            return NoContent();
         }
         catch (Exception ex)
         {
             return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);//500
         }
+         
     }
 
 
