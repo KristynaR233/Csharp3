@@ -18,7 +18,7 @@ public class ToDoItemsController : ControllerBase
     private IActionResult responseDto;
 
     [HttpPost]
-    public ActionResult<ToDoItemCreateRequestDto> Create(ToDoItemCreateRequestDto request) // pouzijeme DTO - Data Transfer Object
+    public ActionResult<ToDoItemGetResponseDto> Create(ToDoItemCreateRequestDto request) // pouzijeme DTO - Data Transfer Object
     {
         var item = request.ToDomain();
 
@@ -107,7 +107,7 @@ public class ToDoItemsController : ControllerBase
         {
             return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);//500
         }
-         
+
     }
 
 

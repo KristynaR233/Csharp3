@@ -27,7 +27,7 @@ public class PostTests : IDisposable
 
 
         // Assert
-        Assert.IsType<ToDoItemCreateRequestDto>(result.Value);
+        Assert.IsType<CreatedAtActionResult>(result.Result);
         Assert.NotNull(value);
 
         Assert.Equal(request.Description, value.Description);
