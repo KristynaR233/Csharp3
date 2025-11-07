@@ -1,15 +1,21 @@
 namespace ToDoList.WebApi;
 
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using ToDoList.Domain.DTOs;
 using ToDoList.Domain.Models;
+using System;
 using ToDoList.Persistence;
 
 [Route("api/[controller]")] // localshost:5000/api/ToDoItems
 [ApiController]
 public class ToDoItemsController : ControllerBase
 {
-    public readonly List<ToDoItem> items = [];
+    public List<ToDoItem> items = [];
     private readonly ToDoItemsContext context;
 
     public ToDoItemsController (ToDoItemsContext context)
@@ -21,42 +27,131 @@ public class ToDoItemsController : ControllerBase
             Description = "Prvni popisek",
             IsCompleted = false,
         };
-        
-    }
-    [HttpPost]
-    public IActionResult Create(ToDoItemCreateRequestDto request) // pouzijeme DTO - Data Transfer Object
-    {
-        return Ok();
-    }
-    [HttpGet]
-    public IActionResult Read()
-    {
-        return Ok();
-    }
-    [HttpGet("{toDoItemId:int}")]
-    public IActionResult ReadById(int toDoItemId)
 
+    }
+    private IActionResult responseDto;
+
+    [HttpPost]
+    public ActionResult<ToDoItemGetResponseDto> Create(ToDoItemCreateRequestDto request) // pouzijeme DTO - Data Transfer Object
     {
+        var item = request.ToDomain();
+
         try
         {
-            throw new Exception("Neco se opravdu nepovedlo.");
+            item.ToDoItemId = items.Count == 0 ? 1 : items.Max(o => o.ToDoItemId) + 1;
+            items.Add(item);
+
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);
+
+        }
+
+
+        return CreatedAtAction(actionName: nameof(ReadById), routeValues: new { ToDoItemId = item.ToDoItemId }, value: ToDoItemGetResponseDto.FromDomain(item));
+    }
+
+    [HttpGet]
+    public ActionResult<IEnumerable<ToDoItemGetResponseDto>> Read()
+    {
+        var response = new List<ToDoItemGetResponseDto>();
+        try
+        {
+            foreach (var iresponse in items)
+            {
+                var i = ToDoItemGetResponseDto.FromDomain(iresponse);
+                response.Add(i);
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);
+
+        }
+        return Ok(response);
+
+    }
+
+    [HttpGet("{toDoItemId:int}")]
+     public ActionResult<ToDoItemGetResponseDto> ReadById(int toDoItemId)
+
+    {      ToDoItemGetResponseDto responseDto;
+        try
+        {
+            var responseID = items.Find(x => x.ToDoItemId.Equals(toDoItemId));
+            if (responseID == null)
+            {
+                return NotFound();
+            }
+            responseDto = ToDoItemGetResponseDto.FromDomain(responseID);
+
+        }
+        catch (FileNotFoundException)
+        {
+            throw new ArgumentException("Id is not found!");
         }
         catch (Exception ex)
         {
             return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);//500
         }
-        return Ok();
+        return Ok(responseDto);
+
     }
     [HttpPut("{toDoItemId:int}")]
-    public IActionResult UpdateById(int toDoItemId, [FromBody]ToDoItemUpdateRequestDto request)
+    public ActionResult UpdateById(int toDoItemId, [FromBody] ToDoItemUpdateRequestDto request)
     {
+        var updatedItem = request.ToDomain();
+        try
+        {
+            var itemToUpdate = items.FindIndex(x => x.ToDoItemId == toDoItemId);
+            if (itemToUpdate == -1)
+            {
+                return NotFound();
+            }
 
-        return Ok();
+            updatedItem.ToDoItemId = toDoItemId;
+            items[itemToUpdate] = updatedItem;
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);//500
+        }
+
     }
+
+
     [HttpDelete("{toDoItemId:int}")]
-    public IActionResult DeleteById(int toDoItemId)
+    public ActionResult DeleteById(int toDoItemId)
     {
-        return Ok();
+        try
+        {
+            var itemToDelete = items.Find(x => x.ToDoItemId.Equals(toDoItemId));
+            if (items == null)
+            {
+                return NotFound();
+            }
+            items.Remove(itemToDelete);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);//500
+        }
+
+    }
+    public void AddItemToStorage(ToDoItem item)
+    {
+        items.Add(item);
+    }
+
+    public void ClearStorage()
+    {
+        items.Clear();
     }
 }
 
