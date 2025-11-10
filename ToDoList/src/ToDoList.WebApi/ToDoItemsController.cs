@@ -15,7 +15,7 @@ using ToDoList.Persistence;
 [ApiController]
 public class ToDoItemsController : ControllerBase
 {
-    public List<ToDoItem> items = [];
+    public List<ToDoItem> items = []; // po dopsani ukolu již není potřeba a muzeme smazat
     private readonly ToDoItemsContext context;
 
     public ToDoItemsController (ToDoItemsContext context)
@@ -27,7 +27,8 @@ public class ToDoItemsController : ControllerBase
             Description = "Prvni popisek",
             IsCompleted = false,
         };
-
+        context.ToDoItems.Add(item);
+        context.SaveChanges();
     }
     private IActionResult responseDto;
 
