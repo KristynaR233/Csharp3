@@ -15,7 +15,7 @@ public class PostTests
     public void Post_ValidRequest_ReturnNewItem()
     {
         // Arrange
-        var connectionString = "DataSource=../../data/localdb.db";
+        var connectionString = "Data Source=../../../data/localdb_test.db";
         using var context = new ToDoItemsContext(connectionString);
         var controller = new ToDoItemsController(context);
         var request = new ToDoItemCreateRequestDto(

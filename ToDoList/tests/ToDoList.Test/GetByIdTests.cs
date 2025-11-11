@@ -13,7 +13,7 @@ public class GetByIdTests
     public void GetById_ValidId_ReturnsItem()
     {
         // Arrange
-        var connectionString = "DataSource=../../data/localdb.db";
+        var connectionString = "Data Source=../../../data/localdb_test.db";
         using var context = new ToDoItemsContext(connectionString);
         var controller = new ToDoItemsController(context);
 
@@ -44,7 +44,7 @@ public class GetByIdTests
     [Fact]
     public void GetById_InvalidId_ReturnsNotFound()
     { // Arrange
-       var connectionString = "DataSource=../../data/localdb.db";
+        var connectionString = "Data Source=../../../data/localdb_test.db";
         using var context = new ToDoItemsContext(connectionString);
         var controller = new ToDoItemsController(context);
 

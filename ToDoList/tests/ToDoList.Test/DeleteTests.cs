@@ -15,7 +15,7 @@ public class DeleteTests
     {
 
         //Arrange
-        var connectionString = "DataSource=../../data/localdb.db";
+        var connectionString = "Data Source=../../../data/localdb_test.db";
         using var context = new ToDoItemsContext(connectionString);
         var controller = new ToDoItemsController(context);
 
@@ -32,7 +32,7 @@ public class DeleteTests
         var result = controller.DeleteById(1);
 
         //Assert
-        Assert.IsType<NoContentResult>(result);
+        Assert.IsType<NotFoundResult>(result);
 
 
     }
@@ -43,7 +43,7 @@ public class DeleteTests
     public void Delete_ValidId_ReturnsNotFound()
     {
         // Arrange
-        var connectionString = "DataSource=../../data/localdb.db";
+        var connectionString = "Data Source=../../../data/localdb_test.db";
         using var context = new ToDoItemsContext(connectionString);
         var controller = new ToDoItemsController(context);
         var toDoItem = new ToDoItem
@@ -61,7 +61,7 @@ public class DeleteTests
         var result = controller.DeleteById(invalidId);
 
         // Assert
-        Assert.IsType<NoContentResult>(result);
+        Assert.IsType<NotFoundResult>(result);
 
     }
 

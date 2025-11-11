@@ -16,7 +16,7 @@ public class PutTests
     {
 
         // Arrange
-        var connectionString = "DataSource=../../data/localdb.db";
+        var connectionString = "Data Source=../../../data/localdb_test.db";
         using var context = new ToDoItemsContext(connectionString);
         var controller = new ToDoItemsController(context);
         var toDoItem = new ToDoItem
@@ -49,7 +49,7 @@ IsCompleted: true
     public void Put_InvalidId_ReturnsNotFound()
     {
         // Arrow
-        var connectionString = "DataSource=../../data/localdb.db";
+        var connectionString = "Data Source=../../../data/localdb_test.db";
         using var context = new ToDoItemsContext(connectionString);
         var controller = new ToDoItemsController(context);
         var toDoItem = new ToDoItem
