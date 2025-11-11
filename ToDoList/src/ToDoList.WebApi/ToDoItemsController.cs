@@ -65,10 +65,16 @@ public class ToDoItemsController : ControllerBase
      public ActionResult<ToDoItemGetResponseDto> ReadById(int toDoItemId)
 
     {
-        ToDoItem? itemToGet;
+
         try
         {
-            itemToGet = context.ToDoItems.Find(toDoItemId);
+            var itemToGet = context.ToDoItems.Find(toDoItemId);
+            if (itemToGet == null)
+            {
+                return NotFound($"ToDo item with ID {toDoItemId} was not found.");
+            }
+            var dto = ToDoItemGetResponseDto.FromDomain(itemToGet);
+            return Ok(dto);
 
         }
         catch (FileNotFoundException)
@@ -79,7 +85,6 @@ public class ToDoItemsController : ControllerBase
         {
             return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);//500
         }
-        return Ok(ToDoItemGetResponseDto.FromDomain(itemToGet));
 
     }
     [HttpPut("{toDoItemId:int}")]
@@ -132,6 +137,6 @@ public class ToDoItemsController : ControllerBase
          return NoContent();
 
     }
-   
+
 }
 

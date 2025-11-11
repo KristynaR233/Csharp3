@@ -38,6 +38,10 @@ public class GetByIdTests
         Assert.Equal(toDoItem.Description, value.Description);
         Assert.Equal(toDoItem.IsCompleted, value.IsCompleted);
 
+        // Clean up
+        context.ToDoItems.RemoveRange(context.ToDoItems);
+        context.SaveChanges();
+
 
 
     }
@@ -61,7 +65,7 @@ public class GetByIdTests
         var result = controller.ReadById(invalidId);
 
         // Assert
-        Assert.IsType<NotFoundResult>(result.Result);
+        Assert.IsType<NotFoundObjectResult>(result.Result);
     }
 
 

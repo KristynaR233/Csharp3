@@ -34,6 +34,10 @@ public class DeleteTests
         //Assert
         Assert.IsType<NotFoundResult>(result);
 
+        // Clean up
+        context.ToDoItems.RemoveRange(context.ToDoItems);
+        context.SaveChanges();
+
 
     }
 
@@ -62,6 +66,10 @@ public class DeleteTests
 
         // Assert
         Assert.IsType<NotFoundResult>(result);
+
+        // Clean up
+        context.ToDoItems.RemoveRange(context.ToDoItems);
+        context.SaveChanges();
 
     }
 

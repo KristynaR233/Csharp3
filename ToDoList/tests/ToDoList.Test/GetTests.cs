@@ -4,6 +4,7 @@ using ToDoList.Domain.Models;
 using ToDoList.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Persistence;
+using ToDoList.Domain.DTOs;
 
 namespace ToDoList.Test;
 
@@ -18,20 +19,9 @@ public class GetTests
         using var context = new ToDoItemsContext(connectionString);
         var controller = new ToDoItemsController(context);
 
-        var toDoItem1 = new ToDoItem
-        {
-            ToDoItemId = 1,
-            Name = "Jmeno1",
-            Description = "Popis1",
-            IsCompleted = false
-        };
-        var toDoItem2 = new ToDoItem
-        {
-            ToDoItemId = 2,
-            Name = "Jmeno2",
-            Description = "Popis2",
-            IsCompleted = true
-        };
+        var createRequest1 = new ToDoItemCreateRequestDto("Task1", "Desc1", false);
+        var createRequest2 = new ToDoItemCreateRequestDto("Task2", "Desc2", false);
+
 
 
         //Act
@@ -44,9 +34,13 @@ public class GetTests
 
         var firstToDo = value.First();
         Assert.Equal(1, firstToDo.Id);
-        Assert.Equal(toDoItem1.Name, firstToDo.Name);
-        Assert.Equal(toDoItem1.Description, firstToDo.Description);
-        Assert.Equal(toDoItem1.IsCompleted, firstToDo.IsCompleted);
+        Assert.Equal(createRequest1.Name, firstToDo.Name);
+        Assert.Equal(createRequest1.Description, firstToDo.Description);
+        Assert.Equal(createRequest1.IsCompleted, firstToDo.IsCompleted);
+
+        // Clean up
+        context.ToDoItems.RemoveRange(context.ToDoItems);
+        context.SaveChanges();
 
 
 
