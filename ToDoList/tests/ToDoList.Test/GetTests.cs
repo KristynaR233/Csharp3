@@ -3,17 +3,20 @@ using System;
 using ToDoList.Domain.Models;
 using ToDoList.WebApi;
 using Microsoft.AspNetCore.Mvc;
+using ToDoList.Persistence;
 
 namespace ToDoList.Test;
 
-public class GetTests : IDisposable
+public class GetTests
 {
-    private readonly ToDoItemsController _controller = new ToDoItemsController();
 
     [Fact]
     public void Get_AllItems_ReturnsAllItems()
     {
         //Arrange
+        var connectionString = "DataSource=../../data/localdb.db";
+        using var context = new ToDoItemsContext(connectionString);
+        var controller = new ToDoItemsController(context);
 
         var toDoItem1 = new ToDoItem
         {
@@ -30,9 +33,7 @@ public class GetTests : IDisposable
             IsCompleted = true
         };
 
-        var controller = new ToDoItemsController();
-        controller.AddItemToStorage(toDoItem1);
-        controller.AddItemToStorage(toDoItem2);
+
         //Act
         var result = controller.Read();
         var value = result.GetValue();
@@ -52,10 +53,6 @@ public class GetTests : IDisposable
 
     }
 
-    public void Dispose()
-    {
-        _controller.ClearStorage();
-    }
 
 
 }

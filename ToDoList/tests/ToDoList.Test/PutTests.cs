@@ -4,17 +4,21 @@ using ToDoList.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Domain.DTOs;
 using Microsoft.AspNetCore.Http.HttpResults;
+using ToDoList.Persistence;
 
 namespace ToDoList.Test;
 
-public class PutTests : IDisposable
+public class PutTests
 {
-    private readonly ToDoItemsController _controller = new ToDoItemsController();
+
     [Fact]
     public void Put_ValidId_ReturnsNoContent()
     {
 
         // Arrange
+        var connectionString = "DataSource=../../data/localdb.db";
+        using var context = new ToDoItemsContext(connectionString);
+        var controller = new ToDoItemsController(context);
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,
@@ -22,9 +26,10 @@ public class PutTests : IDisposable
             Description = "Popis",
             IsCompleted = false
         };
+        context.ToDoItems.Add(toDoItem);
+        context.SaveChanges();
 
-        var controller = new ToDoItemsController();
-        controller.AddItemToStorage(toDoItem);
+
 
         var request = new ToDoItemUpdateRequestDto(
 Name: "Nove jmeno",
@@ -44,6 +49,9 @@ IsCompleted: true
     public void Put_InvalidId_ReturnsNotFound()
     {
         // Arrow
+        var connectionString = "DataSource=../../data/localdb.db";
+        using var context = new ToDoItemsContext(connectionString);
+        var controller = new ToDoItemsController(context);
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,
@@ -52,8 +60,7 @@ IsCompleted: true
             IsCompleted = false
         };
 
-        var controller = new ToDoItemsController();
-        controller.AddItemToStorage(toDoItem);
+
 
         var request = new ToDoItemUpdateRequestDto(
 Name: "Nove jmeno",
@@ -70,10 +77,6 @@ IsCompleted: true
         Assert.IsType<NotFoundResult>(result);
     }
 
-    public void Dispose()
-    {
-        _controller.ClearStorage();
-    }
 
 
 }

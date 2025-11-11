@@ -1,18 +1,21 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Domain.Models;
+using ToDoList.Persistence;
 using ToDoList.WebApi;
 
 namespace ToDoList.Test;
 
-public class GetByIdTests : IDisposable
+public class GetByIdTests
 {
-    private readonly ToDoItemsController _controller = new ToDoItemsController();
 
     [Fact]
     public void GetById_ValidId_ReturnsItem()
     {
         // Arrange
+        var connectionString = "DataSource=../../data/localdb.db";
+        using var context = new ToDoItemsContext(connectionString);
+        var controller = new ToDoItemsController(context);
 
         var toDoItem = new ToDoItem
         {
@@ -21,8 +24,6 @@ public class GetByIdTests : IDisposable
             Description = "Popis1",
             IsCompleted = false
         };
-        var controller = new ToDoItemsController();
-        controller.AddItemToStorage(toDoItem);
 
         // Act
         var result = controller.ReadById(toDoItem.ToDoItemId);
@@ -43,6 +44,10 @@ public class GetByIdTests : IDisposable
     [Fact]
     public void GetById_InvalidId_ReturnsNotFound()
     { // Arrange
+       var connectionString = "DataSource=../../data/localdb.db";
+        using var context = new ToDoItemsContext(connectionString);
+        var controller = new ToDoItemsController(context);
+
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,
@@ -50,9 +55,6 @@ public class GetByIdTests : IDisposable
             Description = "Popis",
             IsCompleted = false
         };
-
-        var controller = new ToDoItemsController();
-        controller.AddItemToStorage(toDoItem);
 
         // Act
         var invalidId = -36;
@@ -62,10 +64,7 @@ public class GetByIdTests : IDisposable
         Assert.IsType<NotFoundResult>(result.Result);
     }
 
-    public void Dispose()
-    {
-        _controller.ClearStorage();
-    }
+
 
 
 }

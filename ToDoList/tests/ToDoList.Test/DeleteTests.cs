@@ -2,19 +2,24 @@ using System;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Domain.Models;
+using ToDoList.Persistence;
 using ToDoList.WebApi;
 
 namespace ToDoList.Test;
 
-public class DeleteTests : IDisposable
+public class DeleteTests
 {
-    private readonly ToDoItemsController _controller = new ToDoItemsController();
+
     [Fact]
     public void Delete_ValidId_ReturnsNoContent()
     {
 
         //Arrange
-        var toDoItem = new ToDoItem
+        var connectionString = "DataSource=../../data/localdb.db";
+        using var context = new ToDoItemsContext(connectionString);
+        var controller = new ToDoItemsController(context);
+
+        var ToDoItem = new ToDoItem
         {
             ToDoItemId = 1,
             Name = "Jmeno",
@@ -23,8 +28,6 @@ public class DeleteTests : IDisposable
         };
 
         //Act
-        var controller = new ToDoItemsController();
-        controller.AddItemToStorage(toDoItem);
 
         var result = controller.DeleteById(1);
 
@@ -40,6 +43,9 @@ public class DeleteTests : IDisposable
     public void Delete_ValidId_ReturnsNotFound()
     {
         // Arrange
+        var connectionString = "DataSource=../../data/localdb.db";
+        using var context = new ToDoItemsContext(connectionString);
+        var controller = new ToDoItemsController(context);
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,
@@ -48,8 +54,7 @@ public class DeleteTests : IDisposable
             IsCompleted = false
         };
 
-        var controller = new ToDoItemsController();
-        controller.AddItemToStorage(toDoItem);
+
 
         // Act
         var invalidId = -1;
@@ -58,10 +63,6 @@ public class DeleteTests : IDisposable
         // Assert
         Assert.IsType<NoContentResult>(result);
 
-    }
-    public void Dispose()
-    {
-        _controller.ClearStorage();
     }
 
 
