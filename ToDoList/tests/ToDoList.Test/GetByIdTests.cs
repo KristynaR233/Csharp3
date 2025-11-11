@@ -15,15 +15,11 @@ public class GetByIdTests
         // Arrange
         var connectionString = "Data Source=../../../data/localdb_test.db";
         using var context = new ToDoItemsContext(connectionString);
+        context.ToDoItems.Add(toDoItem);
+        context.SaveChanges();
+
         var controller = new ToDoItemsController(context);
 
-        var toDoItem = new ToDoItem
-        {
-            ToDoItemId = 1,
-            Name = "Jmeno1",
-            Description = "Popis1",
-            IsCompleted = false
-        };
 
         // Act
         var result = controller.ReadById(toDoItem.ToDoItemId);
@@ -65,7 +61,12 @@ public class GetByIdTests
         var result = controller.ReadById(invalidId);
 
         // Assert
-        Assert.IsType<NotFoundObjectResult>(result.Result);
+        Assert.IsType<NotFoundResult>(result.Result);
+
+        // Clean up
+        context.ToDoItems.RemoveRange(context.ToDoItems);
+        context.SaveChanges();
+
     }
 
 

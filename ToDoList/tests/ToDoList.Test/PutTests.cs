@@ -74,7 +74,7 @@ IsCompleted: true
         var result = controller.UpdateById(invalidId, request);
 
         // Assert
-        Assert.IsType<NotFoundResult>(result);
+        Assert.IsType<NotFound>(result);
     }
 
 

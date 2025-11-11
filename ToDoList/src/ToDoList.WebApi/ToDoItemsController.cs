@@ -18,7 +18,7 @@ public class ToDoItemsController : ControllerBase
 {
     private readonly ToDoItemsContext context;
 
-    public ToDoItemsController (ToDoItemsContext context)
+    public ToDoItemsController(ToDoItemsContext context)
     {
         this.context = context;
     }
@@ -40,7 +40,7 @@ public class ToDoItemsController : ControllerBase
 
         }
 
-        return CreatedAtAction(nameof(ReadById), new {ToDoItemId = item.ToDoItemId}, ToDoItemGetResponseDto.FromDomain(item));
+        return CreatedAtAction(nameof(ReadById), new { ToDoItemId = item.ToDoItemId }, ToDoItemGetResponseDto.FromDomain(item));
     }
 
     [HttpGet]
@@ -62,7 +62,7 @@ public class ToDoItemsController : ControllerBase
     }
 
     [HttpGet("{toDoItemId:int}")]
-     public ActionResult<ToDoItemGetResponseDto> ReadById(int toDoItemId)
+    public ActionResult<ToDoItemGetResponseDto> ReadById(int toDoItemId)
 
     {
 
@@ -71,7 +71,7 @@ public class ToDoItemsController : ControllerBase
             var itemToGet = context.ToDoItems.Find(toDoItemId);
             if (itemToGet == null)
             {
-                return NotFound($"ToDo item with ID {toDoItemId} was not found.");
+                return NotFound();
             }
             var dto = ToDoItemGetResponseDto.FromDomain(itemToGet);
             return Ok(dto);
@@ -95,7 +95,7 @@ public class ToDoItemsController : ControllerBase
         try
         {
             var itemToUpdate = context.ToDoItems.Find(toDoItemId);
-            if (updatedItem is null)
+            if (updatedItem == null)
             {
                 return NotFound();
             }
@@ -134,7 +134,7 @@ public class ToDoItemsController : ControllerBase
         {
             return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);//500
         }
-         return NoContent();
+        return NoContent();
 
     }
 

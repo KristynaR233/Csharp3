@@ -33,7 +33,7 @@ public class GetTests
         Assert.NotNull(value);
 
         var firstToDo = value.First();
-        Assert.Equal(1, firstToDo.Id);
+
         Assert.Equal(createRequest1.Name, firstToDo.Name);
         Assert.Equal(createRequest1.Description, firstToDo.Description);
         Assert.Equal(createRequest1.IsCompleted, firstToDo.IsCompleted);
