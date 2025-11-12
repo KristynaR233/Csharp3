@@ -95,7 +95,7 @@ public class ToDoItemsController : ControllerBase
         try
         {
             var itemToUpdate = context.ToDoItems.Find(toDoItemId);
-            if (updatedItem == null)
+            if (itemToUpdate == null)
             {
                 return NotFound();
             }

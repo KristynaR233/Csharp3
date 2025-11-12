@@ -15,6 +15,14 @@ public class GetByIdTests
         // Arrange
         var connectionString = "Data Source=../../../data/localdb_test.db";
         using var context = new ToDoItemsContext(connectionString);
+        var toDoItem = new ToDoItem
+        {
+            ToDoItemId = 1,
+            Name = "Jmeno",
+            Description = "Popis",
+            IsCompleted = false
+        };
+
         context.ToDoItems.Add(toDoItem);
         context.SaveChanges();
 

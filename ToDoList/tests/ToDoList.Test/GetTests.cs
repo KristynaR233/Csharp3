@@ -21,6 +21,8 @@ public class GetTests
 
         var createRequest1 = new ToDoItemCreateRequestDto("Task1", "Desc1", false);
         var createRequest2 = new ToDoItemCreateRequestDto("Task2", "Desc2", false);
+        controller.Create(createRequest1);
+        controller.Create(createRequest2);
 
 
 
