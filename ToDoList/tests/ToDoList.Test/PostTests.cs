@@ -4,17 +4,20 @@ using ToDoList.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Domain.DTOs;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using ToDoList.Persistence;
 
 namespace ToDoList.Test;
 
-public class PostTests : IDisposable
+public class PostTests
 {
-    private readonly ToDoItemsController _controller = new ToDoItemsController();
+
     [Fact]
     public void Post_ValidRequest_ReturnNewItem()
     {
         // Arrange
-        var controller = new ToDoItemsController();
+        var connectionString = "Data Source=../../../data/localdb_test.db";
+        using var context = new ToDoItemsContext(connectionString);
+        var controller = new ToDoItemsController(context);
         var request = new ToDoItemCreateRequestDto(
             Name: "Jmeno",
             Description: "Popis",
@@ -34,10 +37,8 @@ public class PostTests : IDisposable
         Assert.Equal(request.Name, value.Name);
         Assert.Equal(request.IsCompleted, value.IsCompleted);
     }
-    public void Dispose()
-    {
-        _controller.ClearStorage();
-    }
+
+
 
 
 }

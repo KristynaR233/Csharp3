@@ -1,28 +1,33 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Domain.Models;
+using ToDoList.Persistence;
 using ToDoList.WebApi;
 
 namespace ToDoList.Test;
 
-public class GetByIdTests : IDisposable
+public class GetByIdTests
 {
-    private readonly ToDoItemsController _controller = new ToDoItemsController();
 
     [Fact]
     public void GetById_ValidId_ReturnsItem()
     {
         // Arrange
-
+        var connectionString = "Data Source=../../../data/localdb_test.db";
+        using var context = new ToDoItemsContext(connectionString);
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,
-            Name = "Jmeno1",
-            Description = "Popis1",
+            Name = "Jmeno",
+            Description = "Popis",
             IsCompleted = false
         };
-        var controller = new ToDoItemsController();
-        controller.AddItemToStorage(toDoItem);
+
+        context.ToDoItems.Add(toDoItem);
+        context.SaveChanges();
+
+        var controller = new ToDoItemsController(context);
+
 
         // Act
         var result = controller.ReadById(toDoItem.ToDoItemId);
@@ -37,12 +42,20 @@ public class GetByIdTests : IDisposable
         Assert.Equal(toDoItem.Description, value.Description);
         Assert.Equal(toDoItem.IsCompleted, value.IsCompleted);
 
+        // Clean up
+        context.ToDoItems.RemoveRange(context.ToDoItems);
+        context.SaveChanges();
+
 
 
     }
     [Fact]
     public void GetById_InvalidId_ReturnsNotFound()
     { // Arrange
+        var connectionString = "Data Source=../../../data/localdb_test.db";
+        using var context = new ToDoItemsContext(connectionString);
+        var controller = new ToDoItemsController(context);
+
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,
@@ -51,21 +64,20 @@ public class GetByIdTests : IDisposable
             IsCompleted = false
         };
 
-        var controller = new ToDoItemsController();
-        controller.AddItemToStorage(toDoItem);
-
         // Act
         var invalidId = -36;
         var result = controller.ReadById(invalidId);
 
         // Assert
         Assert.IsType<NotFoundResult>(result.Result);
+
+        // Clean up
+        context.ToDoItems.RemoveRange(context.ToDoItems);
+        context.SaveChanges();
+
     }
 
-    public void Dispose()
-    {
-        _controller.ClearStorage();
-    }
+
 
 
 }
