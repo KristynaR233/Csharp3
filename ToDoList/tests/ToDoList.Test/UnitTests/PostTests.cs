@@ -1,4 +1,5 @@
 using System;
+using NSubstitute;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,9 +13,8 @@ public class PostTests
     public void Post_ValidRequest_ReturnNewItem()
     {
         // Arrange
-        var connectionString = "Data Source=../../../data/localdb_test.db";
-        using var context = new ToDoItemsContext(connectionString);
-        var controller = new ToDoItemsController(context);
+        var repositoryMock = Substitute.For<IRepository<ToDoItem>();
+        var controller = new ToDoItemsController(null, repositoryMock);
         var request = new ToDoItemCreateRequestDto(
             Name: "Jmeno",
             Description: "Popis",
@@ -40,4 +40,3 @@ public class PostTests
 
 }
     }
-
