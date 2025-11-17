@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using ToDoList.Domain.DTOs;
 using Microsoft.AspNetCore.Http.HttpResults;
 using ToDoList.Persistence;
+using ToDoList.Persistence.Repositories;
 
-namespace ToDoList.Test;
+namespace ToDoList.Test.IntegrationTests;
 
 public class PutTests
 {
@@ -16,9 +17,9 @@ public class PutTests
     {
 
         // Arrange
-        var connectionString = "Data Source=../../../data/localdb_test.db";
-        using var context = new ToDoItemsContext(connectionString);
-        var controller = new ToDoItemsController(context);
+        var context = new ToDoItemsContext ("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var repository = new ToDoItemsRepository(context);
+        var controller = new ToDoItemsController (context,repository);
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,
@@ -49,9 +50,9 @@ IsCompleted: true
     public void Put_InvalidId_ReturnsNotFound()
     {
         // Arrow
-        var connectionString = "Data Source=../../../data/localdb_test.db";
-        using var context = new ToDoItemsContext(connectionString);
-        var controller = new ToDoItemsController(context);
+      var context = new ToDoItemsContext ("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var repository = new ToDoItemsRepository(context);
+        var controller = new ToDoItemsController (context,repository);
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,

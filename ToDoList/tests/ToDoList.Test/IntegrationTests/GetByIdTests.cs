@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using ToDoList.Domain.Models;
 using ToDoList.Persistence;
 using ToDoList.WebApi;
+using ToDoList.Persistence.Repositories;
 
-namespace ToDoList.Test;
+namespace ToDoList.Test.IntegrationTests;
 
 public class GetByIdTests
 {
@@ -13,8 +14,9 @@ public class GetByIdTests
     public void GetById_ValidId_ReturnsItem()
     {
         // Arrange
-        var connectionString = "Data Source=../../../data/localdb_test.db";
-        using var context = new ToDoItemsContext(connectionString);
+        var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var repository = new ToDoItemsRepository(context);
+        var controller = new ToDoItemsController(context, repository);
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,
@@ -25,9 +27,6 @@ public class GetByIdTests
 
         context.ToDoItems.Add(toDoItem);
         context.SaveChanges();
-
-        var controller = new ToDoItemsController(context);
-
 
         // Act
         var result = controller.ReadById(toDoItem.ToDoItemId);
@@ -52,9 +51,9 @@ public class GetByIdTests
     [Fact]
     public void GetById_InvalidId_ReturnsNotFound()
     { // Arrange
-        var connectionString = "Data Source=../../../data/localdb_test.db";
-        using var context = new ToDoItemsContext(connectionString);
-        var controller = new ToDoItemsController(context);
+        var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var repository = new ToDoItemsRepository(context);
+        var controller = new ToDoItemsController(context, repository);
 
         var toDoItem = new ToDoItem
         {

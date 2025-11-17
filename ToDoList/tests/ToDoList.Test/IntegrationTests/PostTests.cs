@@ -5,19 +5,21 @@ using Microsoft.AspNetCore.Mvc;
 using ToDoList.Domain.DTOs;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using ToDoList.Persistence;
+using ToDoList.Persistence.Repositories;
+using System.Threading.Tasks;
 
-namespace ToDoList.Test;
+namespace ToDoList.Test.IntegrationTests;
 
-public class PostTests
-{
+    public class PostTests
+    {
 
-    [Fact]
+        [Fact]
     public void Post_ValidRequest_ReturnNewItem()
     {
         // Arrange
-        var connectionString = "Data Source=../../../data/localdb_test.db";
-        using var context = new ToDoItemsContext(connectionString);
-        var controller = new ToDoItemsController(context);
+       var context = new ToDoItemsContext ("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var repository = new ToDoItemsRepository(context);
+        var controller = new ToDoItemsController (context,repository);
         var request = new ToDoItemCreateRequestDto(
             Name: "Jmeno",
             Description: "Popis",
@@ -41,4 +43,5 @@ public class PostTests
 
 
 
-}
+    }
+
