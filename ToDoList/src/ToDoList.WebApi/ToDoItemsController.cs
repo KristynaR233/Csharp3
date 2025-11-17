@@ -125,7 +125,7 @@ public class ToDoItemsController : ControllerBase
             var itemToDelete = context.ToDoItems.Find(toDoItemId);
             if (itemToDelete is null)
             {
-                return NotFound();
+                return NotFound("Item not found.");
             }
             context.ToDoItems.Remove(itemToDelete);
             context.SaveChanges();
