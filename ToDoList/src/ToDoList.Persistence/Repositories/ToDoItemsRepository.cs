@@ -22,27 +22,28 @@ namespace ToDoList.Persistence.Repositories
 
         }
 
-        public void Read() => context.ToDoItems.ToList();
+        public IEnumerable<ToDoItem> Read() => context.ToDoItems.ToList();
 
 
-        public void ReadById(int id) => context.ToDoItems.Find(id);
+        public ToDoItem ReadById(int id) => context.ToDoItems.Find(id);
 
 
-        public void UpdateById (ToDoItem item)
+        public void UpdateById(ToDoItem item)
         {
             var itemToUpdate = context.ToDoItems.Find(item.ToDoItemId);
             if (itemToUpdate == null)
             {
-                return NotFound();
+                throw new KeyNotFoundException($"Item with ID {item.ToDoItemId} not found");
             }
-            itemToUpdate.Name = updatedItem.Name;
-            itemToUpdate.Description = updatedItem.Description;
-            itemToUpdate.IsCompleted = updatedItem.IsCompleted;
+            itemToUpdate.Name = item.Name;
+            itemToUpdate.Description = item.Description;
+            itemToUpdate.IsCompleted = item.IsCompleted;
 
             context.SaveChanges();
 
 
         }
+
 
         public void DeleteById (int id)
         {
