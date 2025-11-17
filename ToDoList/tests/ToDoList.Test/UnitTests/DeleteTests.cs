@@ -12,7 +12,7 @@ public class DeleteTests
 {
 
     [Fact]
-    public void Delete_ValidId_ReturnsNoContent()
+    public void Delete_DeleteByIdValidItemId_ReturnsNoContent()
     {
 
         //Arrange
@@ -32,7 +32,7 @@ public class DeleteTests
         var result = controller.DeleteById(1);
 
         //Assert
-        Assert.IsType<NotFoundObjectResult>(result);
+        Assert.IsType<NoContentResult>(result);
 
 
     }
@@ -40,7 +40,7 @@ public class DeleteTests
 
 
     [Fact]
-    public void Delete_ValidId_ReturnsNotFound()
+    public void Delete_DeleteByIDINvalidItemId_ReturnsNotFound()
     {
         // Arrange
         var repositoryMock = Substitute.For<IRepository<ToDoItem>>();

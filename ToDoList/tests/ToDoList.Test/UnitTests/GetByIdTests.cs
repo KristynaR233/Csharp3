@@ -13,7 +13,7 @@ namespace ToDoList.Test.UnitTests;
 public class GetByIdTests
 {
      [Fact]
-    public void GetById_ValidId_ReturnsItem()
+    public void Get_ReakByIdWhenSomeItemAvailable_ReutrunsOk()
     {
         // Arrange
         var repositoryMock = Substitute.For<IRepository<ToDoItem>>();
@@ -45,7 +45,7 @@ public class GetByIdTests
 
     }
     [Fact]
-    public void GetById_InvalidId_ReturnsNotFound()
+    public void Get_ReadByIdWhenItemsIsNull_ReturnsNotFound()
     { // Arrange
         var repositoryMock = Substitute.For<IRepository<ToDoItem>>();
         var controller = new ToDoItemsController(null, repositoryMock);

@@ -12,7 +12,7 @@ namespace ToDoList.Test.UnitTests
     {
 
         [Fact]
-        public void Post_ValidRequest_ReturnNewItem()
+        public void Post_ValidRequest_ReturnCreatedAtAction()
         {
             // Arrange
             var repositoryMock = Substitute.For<IRepository<ToDoItem>>();
@@ -35,6 +35,11 @@ namespace ToDoList.Test.UnitTests
             Assert.Equal(request.Description, value.Description);
             Assert.Equal(request.Name, value.Name);
             Assert.Equal(request.IsCompleted, value.IsCompleted);
+        }
+        [Fact]
+        public void Post_CreateUnhandledException_ReturnsInternalServerError()
+        {
+            
         }
 
 

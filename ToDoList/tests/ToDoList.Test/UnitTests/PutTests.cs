@@ -13,7 +13,7 @@ namespace ToDoList.Test.UnitTests;
 public class PutTests
 {
     [Fact]
-    public void Put_ValidId_ReturnsNoContent()
+    public void Put_UpdateByIdWhenItemUpdated_ReturnsNOContent()
     {
 
         // Arrange
@@ -44,7 +44,7 @@ IsCompleted: true
     }
 
     [Fact]
-    public void Put_InvalidId_ReturnsNotFound()
+    public void Put_UpdateByIdWhenIdNotFound_ReturnsNotFound()
     {
         // Arrow
         var repositoryMock = Substitute.For<IRepository<ToDoItem>>();

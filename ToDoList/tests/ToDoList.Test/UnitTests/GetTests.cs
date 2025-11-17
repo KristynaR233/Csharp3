@@ -11,7 +11,7 @@ namespace ToDoList.Test.UnitTests;
 
 public class GetTests
 {
-    public void Get_AllItems_ReturnsAllItems()
+    public void Get_ReadWhenSomeItemAvailable_ReturnsOk()
     {
         //Arrange
         var repositoryMock = Substitute.For<IRepository<ToDoItem>>();
