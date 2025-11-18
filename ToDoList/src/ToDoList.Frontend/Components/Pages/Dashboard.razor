@@ -1,0 +1,36 @@
+﻿@using ToDoList.Frontend.Models;
+
+<div>
+    <h2>ToDo items dashboard</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Název</th>
+                <th>Popis</th>
+                <th>Dokončeno</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in testData)
+                        {
+            <tr>
+                <th>@item.Id</th>
+                <th>@item.Name</th>
+                <th>@item.Description</th>
+                <th>@(item.IsCompleted ? "Dokonceny" : "Nedokonceny")</th>
+            </tr>
+
+                        }
+        </tbody>
+    </table>
+</div>
+@code {
+
+    private List<ToDoItemsView> testData = new List<ToDoItemsView>()
+{
+new ToDoItemsView (Id: 1, Name: "Popis1", Description:"ukol", IsCompleted: true),
+new ToDoItemsView (Id: 2, Name: "Popis2", Description:"ukol2", IsCompleted: true)
+
+};
+}

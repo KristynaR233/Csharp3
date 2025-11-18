@@ -1,4 +1,5 @@
 ﻿@page "/"
+@rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
 
@@ -8,7 +9,20 @@ Welcome to your new app.
 <br>
 <b>@GetValue()</b>
 
+<hr>
+
+<p>Hodnota: @counter</p>
+<button @onclick="IncrementCounter">Increment Counter</button>
+
 @code {
+    private int counter = 1;
+
+    private void IncrementCounter()
+    {
+        counter++;
+    }
+
+
     private string GetValue()
     {
         return Guid.NewGuid().ToString();
