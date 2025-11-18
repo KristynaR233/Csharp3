@@ -12,15 +12,13 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in testData)
-                        {
+            @foreach (var item in testData)        {
             <tr>
                 <th>@item.Id</th>
                 <th>@item.Name</th>
                 <th>@item.Description</th>
                 <th>@(item.IsCompleted ? "Dokonceny" : "Nedokonceny")</th>
             </tr>
-
                         }
         </tbody>
     </table>
