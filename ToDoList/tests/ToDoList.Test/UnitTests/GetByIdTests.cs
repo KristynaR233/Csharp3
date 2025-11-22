@@ -17,6 +17,7 @@ public class GetByIdTests
     {
         // Arrange
         var repositoryMock = Substitute.For<IRepository<ToDoItem>>();
+        var controller = new ToDoItemsController(repositoryMock);
         var toDoItem = new ToDoItem
             {
             ToDoItemId = 1,
@@ -26,7 +27,6 @@ public class GetByIdTests
             };
         repositoryMock.ReadById(1).Returns(toDoItem);
 
-        var controller = new ToDoItemsController(null, repositoryMock);
 
         // Act
         var result = controller.ReadById(toDoItem.ToDoItemId);
@@ -48,21 +48,18 @@ public class GetByIdTests
     public void Get_ReadByIdWhenItemsIsNull_ReturnsNotFound()
     { // Arrange
         var repositoryMock = Substitute.For<IRepository<ToDoItem>>();
-        var controller = new ToDoItemsController(null, repositoryMock);
-        var toDoItem = new ToDoItem
-        {
-            ToDoItemId = 1,
-            Name = "Jmeno",
-            Description = "Popis",
-            IsCompleted = false
-        };
+        var controller = new ToDoItemsController(repositoryMock);
+
+      repositoryMock.ReadById(Arg.Any<int>()).Returns((ToDoItem?)null);
 
         // Act
-        var invalidId = -36;
-        var result = controller.ReadById(invalidId);
+        var result = controller.ReadById(1);
+        var resultResult = result.Result;
 
         // Assert
-        Assert.IsType<NotFoundResult>(result.Result);
+        Assert.IsType<NotFoundResult>(resultResult);
+
+        repositoryMock.Received(1).ReadById(1);
 
 
     }

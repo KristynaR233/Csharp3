@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace ToDoList.Test.IntegrationTests;
 
-    public class PostTests
-    {
+public class PostTests
+{
 
-        [Fact]
+    [Fact]
     public void Post_ValidRequest_ReturnNewItem()
     {
         // Arrange
-       var context = new ToDoItemsContext ("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
         var repository = new ToDoItemsRepository(context);
         var controller = new ToDoItemsController(repository);
         var request = new ToDoItemCreateRequestDto(
@@ -43,5 +43,5 @@ namespace ToDoList.Test.IntegrationTests;
 
 
 
-    }
+}
 

@@ -15,7 +15,7 @@ public class GetTests
     {
         //Arrange
         var repositoryMock = Substitute.For<IRepository<ToDoItem>>();
-        var controller = new ToDoItemsController(null, repositoryMock);
+        var controller = new ToDoItemsController(repositoryMock);
          var toDoItem1 = new ToDoItem
             {
             ToDoItemId = 1,
@@ -31,23 +31,25 @@ public class GetTests
             Description = "Popis2",
             IsCompleted = false
             };
+            var someItemList = new List<ToDoItem> {toDoItem1, toDoItem2};
 
-        repositoryMock.Read().Returns(new List<ToDoItem> {toDoItem1, toDoItem2});
+        repositoryMock.Read().Returns(someItemList);
 
 
         //Act
         var result = controller.Read();
+        var resultResult = result.Result;
         var value = result.GetValue();
 
 
         //Assert
+        Assert.IsType<OkObjectResult>(resultResult);
         Assert.NotNull(value);
+        Assert.Equal(toDoItem1.ToDoItemId, value.First().Id);
+        Assert.Equal(toDoItem1.Name, value.First().Name);
 
-        var firstToDo = value.First();
+        repositoryMock.Received(1).Read();
 
-        Assert.Equal(toDoItem1.Name, firstToDo.Name);
-        Assert.Equal(toDoItem1.Description, firstToDo.Description);
-        Assert.Equivalent(toDoItem1.IsCompleted, firstToDo.IsCompleted);
 
 
 

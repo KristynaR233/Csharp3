@@ -27,7 +27,7 @@ public class PutTests
         };
 
         repositoryMock.ReadById(1).Returns(toDoItem);
-        var controller = new ToDoItemsController(null, repositoryMock);
+        var controller = new ToDoItemsController(repositoryMock);
 
         var request = new ToDoItemUpdateRequestDto(
 Name: "Nove jmeno",
@@ -48,7 +48,7 @@ IsCompleted: true
     {
         // Arrow
         var repositoryMock = Substitute.For<IRepository<ToDoItem>>();
-        var controller = new ToDoItemsController(null, repositoryMock);
+        var controller = new ToDoItemsController(repositoryMock);
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,

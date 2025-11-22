@@ -17,7 +17,7 @@ public class PutTests
     {
 
         // Arrange
-        var context = new ToDoItemsContext ("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
         var repository = new ToDoItemsRepository(context);
         var controller = new ToDoItemsController(repository);
         var toDoItem = new ToDoItem
@@ -50,7 +50,7 @@ IsCompleted: true
     public void Put_InvalidId_ReturnsNotFound()
     {
         // Arrow
-      var context = new ToDoItemsContext ("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
         var repository = new ToDoItemsRepository(context);
         var controller = new ToDoItemsController(repository);
         var toDoItem = new ToDoItem
