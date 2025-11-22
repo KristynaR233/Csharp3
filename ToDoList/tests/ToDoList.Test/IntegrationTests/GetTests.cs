@@ -18,7 +18,7 @@ public class GetTests
         //Arrange
         var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
         var repository = new ToDoItemsRepository(context);
-        var controller = new ToDoItemsController(context, repository);
+        var controller = new ToDoItemsController(repository);
 
         var createRequest1 = new ToDoItemCreateRequestDto("Task1", "Desc1", false);
         var createRequest2 = new ToDoItemCreateRequestDto("Task2", "Desc2", false);

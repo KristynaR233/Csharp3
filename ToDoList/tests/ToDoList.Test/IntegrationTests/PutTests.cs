@@ -19,7 +19,7 @@ public class PutTests
         // Arrange
         var context = new ToDoItemsContext ("Data Source=../../../IntergrationTests/data/localdb_test.db");
         var repository = new ToDoItemsRepository(context);
-        var controller = new ToDoItemsController (context,repository);
+        var controller = new ToDoItemsController(repository);
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,
@@ -52,7 +52,7 @@ IsCompleted: true
         // Arrow
       var context = new ToDoItemsContext ("Data Source=../../../IntergrationTests/data/localdb_test.db");
         var repository = new ToDoItemsRepository(context);
-        var controller = new ToDoItemsController (context,repository);
+        var controller = new ToDoItemsController(repository);
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,

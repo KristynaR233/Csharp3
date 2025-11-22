@@ -44,7 +44,7 @@ public class DeleteTests
     {
         // Arrange
         var repositoryMock = Substitute.For<IRepository<ToDoItem>>();
-        var controller = new ToDoItemsController(null, repositoryMock);
+        var controller = new ToDoItemsController(repositoryMock);
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,

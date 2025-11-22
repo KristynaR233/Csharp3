@@ -1,5 +1,4 @@
 using System;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Domain.Models;
 using ToDoList.Persistence;
@@ -16,41 +15,11 @@ public class DeleteTests
     {
 
         //Arrange
-        var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var connectionString = "Data Source=../../../IntegrationTests/data/localdb_test.db";
+        using var context = new ToDoItemsContext(connectionString);
         var repository = new ToDoItemsRepository(context);
-        var controller = new ToDoItemsController(context, repository);
+        var controller = new ToDoItemsController(repository);
 
-        var ToDoItem = new ToDoItem
-        {
-            ToDoItemId = 1,
-            Name = "Jmeno",
-            Description = "Popis",
-            IsCompleted = false
-        };
-
-        //Act
-
-        var result = controller.DeleteById(1);
-
-        //Assert
-        Assert.IsType<NotFoundResult>(result);
-
-        // Clean up
-        context.ToDoItems.RemoveRange(context.ToDoItems);
-        context.SaveChanges();
-
-
-    }
-
-
-
-    [Fact]
-    public void Delete_ValidId_ReturnsNotFound()
-    {
-        // Arrange
-        var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
-        var repository = new ToDoItemsRepository(context);
-        var controller = new ToDoItemsController(context, repository);
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,
@@ -58,6 +27,41 @@ public class DeleteTests
             Description = "Popis",
             IsCompleted = false
         };
+        repository.Create(toDoItem);
+        context.SaveChanges();
+
+        //Act
+
+        var result = controller.DeleteById(1);
+
+        //Assert
+        Assert.IsType<NoContentResult>(result);
+        var deletedItem = context.ToDoItems.Find(toDoItem.ToDoItemId);
+        Assert.Null(deletedItem);
+
+
+
+    }
+
+
+
+    [Fact]
+    public void Delete_InvalidId_ReturnsNotFound()
+    {
+        // Arrange
+        var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var repository = new ToDoItemsRepository(context);
+        var controller = new ToDoItemsController(repository);
+        var toDoItem = new ToDoItem
+        {
+            ToDoItemId = 1,
+            Name = "Jmeno",
+            Description = "Popis",
+            IsCompleted = false
+        };
+        repository.Create(toDoItem);
+        context.SaveChanges();
+
 
 
 
@@ -69,8 +73,7 @@ public class DeleteTests
         Assert.IsType<NotFoundResult>(result);
 
         // Clean up
-        context.ToDoItems.RemoveRange(context.ToDoItems);
-        context.SaveChanges();
+
 
     }
 

@@ -4,6 +4,9 @@ using ToDoList.Domain.Models;
 using ToDoList.Persistence;
 using ToDoList.WebApi;
 using ToDoList.Persistence.Repositories;
+using Microsoft.AspNetCore.Http.Features;
+using Humanizer;
+using ToDoList.Domain.DTOs;
 
 namespace ToDoList.Test.IntegrationTests;
 
@@ -14,9 +17,10 @@ public class GetByIdTests
     public void GetById_ValidId_ReturnsItem()
     {
         // Arrange
-        var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var connectionString = "Data Source=../../../IntergrationTests/data/localdb_test.db";
+        var context = new ToDoItemsContext(connectionString);
         var repository = new ToDoItemsRepository(context);
-        var controller = new ToDoItemsController(context, repository);
+        var controller = new ToDoItemsController(repository);
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,
@@ -25,16 +29,16 @@ public class GetByIdTests
             IsCompleted = false
         };
 
-        context.ToDoItems.Add(toDoItem);
+        repository.Create(toDoItem);
         context.SaveChanges();
 
         // Act
-        var result = controller.ReadById(toDoItem.ToDoItemId);
-        var value = result.GetValue();
+        var result = repository.ReadById(toDoItem.ToDoItemId);
+
 
         // Assert
         Assert.IsType<OkObjectResult>(result.Result);
-        Assert.NotNull(value);
+        Assert.IsType<ToDoItemGetResponseDto>(OkResult.Value);
 
         Assert.Equal(1, value.Id);
         Assert.Equal(toDoItem.Name, value.Name);
@@ -53,7 +57,7 @@ public class GetByIdTests
     { // Arrange
         var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
         var repository = new ToDoItemsRepository(context);
-        var controller = new ToDoItemsController(context, repository);
+        var controller = new ToDoItemsController(repository);
 
         var toDoItem = new ToDoItem
         {

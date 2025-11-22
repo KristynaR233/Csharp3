@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration.Assemblies;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using ToDoList.Domain.Models;
@@ -25,20 +26,13 @@ namespace ToDoList.Persistence.Repositories
         public IEnumerable<ToDoItem> Read() => context.ToDoItems.ToList();
 
 
-        public ToDoItem ReadById(int id) => context.ToDoItems.Find(id);
+        public ToDoItem? ReadById(int id) => context.ToDoItems.Find(id);
 
 
         public void UpdateById(ToDoItem item)
         {
-            var itemToUpdate = context.ToDoItems.Find(item.ToDoItemId);
-            if (itemToUpdate == null)
-            {
-                throw new KeyNotFoundException($"Item with ID {item.ToDoItemId} not found");
-            }
-            itemToUpdate.Name = item.Name;
-            itemToUpdate.Description = item.Description;
-            itemToUpdate.IsCompleted = item.IsCompleted;
-
+            var itemToUpdate = context.ToDoItems.Find(item.ToDoItemId) ?? throw new ArgumentOutOfRangeException ($"ToDo item with ID{item.ToDoItemId} not found.");
+            context.Entry(itemToUpdate).CurrentValues.SetValues(item);
             context.SaveChanges();
 
 
@@ -47,11 +41,7 @@ namespace ToDoList.Persistence.Repositories
 
         public void DeleteById (int id)
         {
-             var itemToDelete = context.ToDoItems.Find(id);
-            if (itemToDelete is null)
-            {
-               throw new NotImplementedException();
-            }
+             var itemToDelete = context.ToDoItems.Find(id) ?? throw new ArgumentOutOfRangeException ($"ToDo item with ID{id} not found.");
             context.ToDoItems.Remove(itemToDelete);
             context.SaveChanges();
         }

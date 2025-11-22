@@ -41,7 +41,7 @@ public class ToDoItemsController : ControllerBase
 
         }
 
-        return CreatedAtAction(nameof(ReadById), new { ToDoItemId = item.ToDoItemId }, ToDoItemGetResponseDto.FromDomain(item));
+        return CreatedAtAction(nameof(ReadById), new { toDoItemId = item.ToDoItemId }, ToDoItemGetResponseDto.FromDomain(item));
     }
 
     [HttpGet]
@@ -58,7 +58,10 @@ public class ToDoItemsController : ControllerBase
             return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);
 
         }
-        return Ok(itemsToGet.Select(ToDoItemGetResponseDto.FromDomain));
+
+        return (itemsToGet is null)
+        ? NotFound()
+        : Ok(itemsToGet.Select(ToDoItemGetResponseDto.FromDomain));
 
     }
 
@@ -70,22 +73,16 @@ public class ToDoItemsController : ControllerBase
         try
         {
             itemToGet = repository.ReadById(toDoItemId);
-            if (itemToGet == null)
-            {
-                return NotFound();
-            }
-            var dto = ToDoItemGetResponseDto.FromDomain(itemToGet);
-            return Ok(dto);
 
-        }
-        catch (FileNotFoundException)
-        {
-            throw new ArgumentException("Id is not found!");
         }
         catch (Exception ex)
         {
             return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);//500
         }
+        return (itemToGet is null)
+        ? NotFound()
+        : Ok(ToDoItemGetResponseDto.FromDomain(itemToGet));
+
 
     }
     [HttpPut("{toDoItemId:int}")]
@@ -97,7 +94,7 @@ public class ToDoItemsController : ControllerBase
         try
         {
             var itemToUpdate = repository.ReadById(toDoItemId);
-            if (itemToUpdate == null)
+            if (itemToUpdate is null)
             {
                 return NotFound();
             }
@@ -116,7 +113,7 @@ public class ToDoItemsController : ControllerBase
 
 
     [HttpDelete("{toDoItemId:int}")]
-    public ActionResult DeleteById(int toDoItemId)
+    public IActionResult DeleteById(int toDoItemId)
     {
         try
         {

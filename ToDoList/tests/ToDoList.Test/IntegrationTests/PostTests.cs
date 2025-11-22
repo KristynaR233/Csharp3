@@ -19,7 +19,7 @@ namespace ToDoList.Test.IntegrationTests;
         // Arrange
        var context = new ToDoItemsContext ("Data Source=../../../IntergrationTests/data/localdb_test.db");
         var repository = new ToDoItemsRepository(context);
-        var controller = new ToDoItemsController (context,repository);
+        var controller = new ToDoItemsController(repository);
         var request = new ToDoItemCreateRequestDto(
             Name: "Jmeno",
             Description: "Popis",
