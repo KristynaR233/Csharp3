@@ -17,7 +17,7 @@ public class PostTests
     public void Post_ValidRequest_ReturnNewItem()
     {
         // Arrange
-        var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var context = new ToDoItemsContext("Data Source=../../../IntegrationTests/data/localdb_test.db");
         var repository = new ToDoItemsRepository(context);
         var controller = new ToDoItemsController(repository);
         var request = new ToDoItemCreateRequestDto(

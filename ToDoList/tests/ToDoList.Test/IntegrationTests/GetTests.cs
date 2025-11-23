@@ -9,14 +9,17 @@ using ToDoList.Persistence.Repositories;
 
 namespace ToDoList.Test.IntegrationTests;
 
-public class GetTests
+public class GetTests : IDisposable
 {
+    private readonly ToDoItemsContext _context;
+    private readonly ToDoItemsRepository _repository;
+    private readonly ToDoItemsController _controller;
 
     [Fact]
     public void Get_AllItems_ReturnsAllItems()
     {
         //Arrange
-        var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var context = new ToDoItemsContext("Data Source=../../../IntegrationTests/data/localdb_test.db");
         var repository = new ToDoItemsRepository(context);
         var controller = new ToDoItemsController(repository);
 
@@ -40,10 +43,14 @@ public class GetTests
         Assert.Equal(createRequest1.Name, firstToDo.Name);
         Assert.Equal(createRequest1.Description, firstToDo.Description);
         Assert.Equal(createRequest1.IsCompleted, firstToDo.IsCompleted);
+    }
+    // Clean up
+    public void Dispose()
+    {
 
-        // Clean up
-        context.ToDoItems.RemoveRange(context.ToDoItems);
-        context.SaveChanges();
+        _context.Database.EnsureDeleted();
+        _context.Dispose();
+
 
 
 

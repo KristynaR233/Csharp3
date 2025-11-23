@@ -14,8 +14,9 @@ public class DeleteTests
     public void Delete_ValidId_ReturnsNoContent()
     {
 
+
         //Arrange
-        var connectionString = "Data Source=../../../IntegrationTests/data/localdb_test.db";
+        var connectionString = $"DataSource= data/localdb_test.db";
         using var context = new ToDoItemsContext(connectionString);
         var repository = new ToDoItemsRepository(context);
         var controller = new ToDoItemsController(repository);
@@ -38,10 +39,13 @@ public class DeleteTests
         Assert.IsType<NoContentResult>(result);
         var deletedItem = context.ToDoItems.Find(toDoItem.ToDoItemId);
         Assert.Null(deletedItem);
-
-
-
     }
+
+    //Clean up
+
+
+
+
 
 
 
@@ -49,7 +53,7 @@ public class DeleteTests
     public void Delete_InvalidId_ReturnsNotFound()
     {
         // Arrange
-        var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var context = new ToDoItemsContext("Data Source=../../../IntegrationTests/data/localdb_test.db");
         var repository = new ToDoItemsRepository(context);
         var controller = new ToDoItemsController(repository);
         var toDoItem = new ToDoItem
@@ -72,7 +76,10 @@ public class DeleteTests
         // Assert
         Assert.IsType<NotFoundResult>(result);
 
+
         // Clean up
+        context.ToDoItems.RemoveRange(context.ToDoItems);
+        context.SaveChanges();
 
 
     }

@@ -17,7 +17,7 @@ public class GetByIdTests
     public async Task GetById_ValidId_ReturnsItem()
     {
         // Arrange
-        var connectionString = "Data Source=../../../IntergrationTests/data/localdb_test.db";
+        var connectionString = "Data Source=../../../IntegrationTests/data/localdb_test.db";
         var context = new ToDoItemsContext(connectionString);
         var repository = new ToDoItemsRepository(context);
         var controller = new ToDoItemsController(repository);
@@ -40,13 +40,13 @@ public class GetByIdTests
 
 
         // Assert
-       Assert.IsType<OkObjectResult>(resultResult);
-       Assert.NotNull(value);
+        Assert.IsType<OkObjectResult>(resultResult);
+        Assert.NotNull(value);
 
-       Assert.Equal(toDoItem.ToDoItemId, value.Id);
-       Assert.Equal(toDoItem.Description, value.Description);
-       Assert.Equal(toDoItem.Name, value.Name);
-       Assert.Equal(toDoItem.IsCompleted, value.IsCompleted);
+        Assert.Equal(toDoItem.ToDoItemId, value.Id);
+        Assert.Equal(toDoItem.Description, value.Description);
+        Assert.Equal(toDoItem.Name, value.Name);
+        Assert.Equal(toDoItem.IsCompleted, value.IsCompleted);
 
 
 
@@ -61,7 +61,7 @@ public class GetByIdTests
     [Fact]
     public void GetById_InvalidId_ReturnsNotFound()
     { // Arrange
-        var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var context = new ToDoItemsContext("Data Source=../../../IntegrationTests/data/localdb_test.db");
         var repository = new ToDoItemsRepository(context);
         var controller = new ToDoItemsController(repository);
 
@@ -87,6 +87,6 @@ public class GetByIdTests
     }
 
 
-
-
 }
+
+
