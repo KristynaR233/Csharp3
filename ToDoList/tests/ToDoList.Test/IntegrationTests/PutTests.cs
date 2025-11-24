@@ -44,13 +44,17 @@ IsCompleted: true
 
         // Assert
         Assert.IsType<NoContentResult>(result);
+
+         // Clean up
+        context.ToDoItems.RemoveRange(context.ToDoItems);
+        context.SaveChanges();
     }
 
     [Fact]
     public void Put_InvalidId_ReturnsNotFound()
     {
         // Arrow
-        var context = new ToDoItemsContext("Data Source=../../../IntergrationTests/data/localdb_test.db");
+        var context = new ToDoItemsContext("Data Source=../../../IntegrationTests/data/localdb_test.db");
         var repository = new ToDoItemsRepository(context);
         var controller = new ToDoItemsController(repository);
         var toDoItem = new ToDoItem
@@ -76,6 +80,10 @@ IsCompleted: true
 
         // Assert
         Assert.IsType<NotFoundResult>(result);
+
+         // Clean up
+        context.ToDoItems.RemoveRange(context.ToDoItems);
+        context.SaveChanges();
     }
 
 

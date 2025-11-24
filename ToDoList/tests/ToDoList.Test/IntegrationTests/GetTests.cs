@@ -9,12 +9,8 @@ using ToDoList.Persistence.Repositories;
 
 namespace ToDoList.Test.IntegrationTests;
 
-public class GetTests : IDisposable
+public class GetTests
 {
-    private readonly ToDoItemsContext _context;
-    private readonly ToDoItemsRepository _repository;
-    private readonly ToDoItemsController _controller;
-
     [Fact]
     public void Get_AllItems_ReturnsAllItems()
     {
@@ -43,13 +39,11 @@ public class GetTests : IDisposable
         Assert.Equal(createRequest1.Name, firstToDo.Name);
         Assert.Equal(createRequest1.Description, firstToDo.Description);
         Assert.Equal(createRequest1.IsCompleted, firstToDo.IsCompleted);
-    }
-    // Clean up
-    public void Dispose()
-    {
 
-        _context.Database.EnsureDeleted();
-        _context.Dispose();
+         // Clean up
+        context.ToDoItems.RemoveRange(context.ToDoItems);
+        context.SaveChanges();
+    }
 
 
 
@@ -59,4 +53,4 @@ public class GetTests : IDisposable
 
 
 
-}
+

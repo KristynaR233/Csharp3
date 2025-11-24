@@ -38,6 +38,10 @@ public class PostTests
         Assert.Equal(request.Description, value.Description);
         Assert.Equal(request.Name, value.Name);
         Assert.Equal(request.IsCompleted, value.IsCompleted);
+
+        // Clean up
+        context.ToDoItems.RemoveRange(context.ToDoItems);
+        context.SaveChanges();
     }
 
 
