@@ -22,13 +22,31 @@
                         }
         </tbody>
     </table>
+<button @onclick="OrderByID">Order by ID</button>
+<button @onclick="OrderByName">Order by Name</button>
 </div>
 @code {
 
     private List<ToDoItemsView> testData = new List<ToDoItemsView>()
 {
-new ToDoItemsView (Id: 1, Name: "Popis1", Description:"ukol", IsCompleted: true),
-new ToDoItemsView (Id: 2, Name: "Popis2", Description:"ukol2", IsCompleted: true)
+new ToDoItemsView (Id: 1, Name: "Napis ukol", Description:"domaci ukol", IsCompleted: false),
+new ToDoItemsView (Id: 2, Name: "Upect cukrovi", Description:"zadelej testa", IsCompleted: false),
+new ToDoItemsView (Id: 3, Name: "Zavolej Sarce", Description:"domluvit sraz", IsCompleted: false),
+new ToDoItemsView (Id: 4, Name: "Nakup", Description:"objednej Rohlik", IsCompleted: false),
+new ToDoItemsView (Id: 5, Name: "Nove zimni boty", Description:"zimni boty", IsCompleted: false),
+new ToDoItemsView (Id: 6, Name: "predvanocni uklid", Description:"v sobotu", IsCompleted: false)
 
 };
+
+   private void OrderByID ()
+   {
+    testData = testData.OrderBy(item =>item.Id).ToList();
+
+
+    }
+    private void OrderByName()
+    {
+        testData = testData.OrderBy(item =>item.Name).ToList();
+
+    }
 }
