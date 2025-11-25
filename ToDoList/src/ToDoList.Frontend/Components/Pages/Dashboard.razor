@@ -1,4 +1,7 @@
 ﻿@using ToDoList.Frontend.Models;
+@using ToDoList.Frontend.Clients;
+
+@inject IToDoItemsClient toDoItemsClient;
 
 <div>
     <h2>ToDo items dashboard</h2>
@@ -48,6 +51,12 @@ new ToDoItemsView (Id: 6, Name: "predvanocni uklid", Description:"v sobotu", IsC
     private void OrderByName()
     {
         testData = testData.OrderBy(item => item.Name).ToList();
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        testData = await toDoItemsClient.ReadItemsAsync();
 
     }
 }
