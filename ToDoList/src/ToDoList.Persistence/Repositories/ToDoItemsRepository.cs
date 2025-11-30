@@ -4,6 +4,7 @@ using System.Configuration.Assemblies;
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using ToDoList.Domain.Models;
 
 namespace ToDoList.Persistence.Repositories
@@ -16,34 +17,34 @@ namespace ToDoList.Persistence.Repositories
         this.context = context;
     }
 
-        public void Create(ToDoItem item)
+        public async Task Create(ToDoItem item)
         {
-            context.ToDoItems.Add(item);
-            context.SaveChanges();
+            await context.ToDoItems.AddAsync(item);
+            await context.SaveChangesAsync();
 
         }
 
-        public IEnumerable<ToDoItem> Read() => context.ToDoItems.ToList();
+        public async Task<IEnumerable<ToDoItem>> Read() => await context.ToDoItems.ToListAsync();
 
 
-        public ToDoItem? ReadById(int id) => context.ToDoItems.Find(id);
+        public async Task <ToDoItem?> ReadById(int id) => await context.ToDoItems.FindAsync(id);
 
 
-        public void UpdateById(ToDoItem item)
+        public async Task UpdateById(ToDoItem item)
         {
-            var itemToUpdate = context.ToDoItems.Find(item.ToDoItemId) ?? throw new ArgumentOutOfRangeException ($"ToDo item with ID{item.ToDoItemId} not found.");
+            var itemToUpdate = await context.ToDoItems.FindAsync(item.ToDoItemId) ?? throw new ArgumentOutOfRangeException ($"ToDo item with ID{item.ToDoItemId} not found.");
             context.Entry(itemToUpdate).CurrentValues.SetValues(item);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
 
         }
 
 
-        public void DeleteById (int id)
+        public async Task DeleteById(int id)
         {
-            var itemToDelete = context.ToDoItems.Find(id) ?? throw new ArgumentOutOfRangeException ($"ToDo item with ID{id} not found.");
+            var itemToDelete = await context.ToDoItems.FindAsync(id) ?? throw new ArgumentOutOfRangeException ($"ToDo item with ID{id} not found.");
             context.ToDoItems.Remove(itemToDelete);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
 
