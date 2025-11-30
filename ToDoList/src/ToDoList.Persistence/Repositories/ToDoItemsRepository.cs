@@ -8,7 +8,7 @@ using ToDoList.Domain.Models;
 
 namespace ToDoList.Persistence.Repositories
 {
-    public class ToDoItemsRepository : IRepository<ToDoItem>
+    public class ToDoItemsRepository : IRepositoryAsync<ToDoItem>
     {
         private readonly ToDoItemsContext context;
          public ToDoItemsRepository(ToDoItemsContext context)
@@ -41,7 +41,7 @@ namespace ToDoList.Persistence.Repositories
 
         public void DeleteById (int id)
         {
-             var itemToDelete = context.ToDoItems.Find(id) ?? throw new ArgumentOutOfRangeException ($"ToDo item with ID{id} not found.");
+            var itemToDelete = context.ToDoItems.Find(id) ?? throw new ArgumentOutOfRangeException ($"ToDo item with ID{id} not found.");
             context.ToDoItems.Remove(itemToDelete);
             context.SaveChanges();
         }

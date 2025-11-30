@@ -7,17 +7,17 @@ using ToDoList.Domain.Models;
 
 namespace ToDoList.Persistence.Repositories
 {
-    public interface IRepository<T>
+    public interface IRepositoryAsync<T>
     where T : class
     {
-        public void Create(T item);
+        public Task Create(T item);
 
-        public IEnumerable<T> Read();
+        public Task<IEnumerable<T>> Read();
 
-        public T? ReadById(int id);
+        public Task<T?> ReadById(int id);
 
-        public void UpdateById(T item);
+        public Task UpdateById(T item);
 
-        public void DeleteById(int id);
+        public Task DeleteById(int id);
     }
 }
