@@ -12,7 +12,7 @@ public class DeleteTests
 
 
     [Fact]
-    public void Delete_ValidId_ReturnsNoContent()
+    public async Task Delete_ValidId_ReturnsNoContent()
     {
 
 
@@ -30,24 +30,24 @@ public class DeleteTests
             IsCompleted = false
         };
         repository.Create(toDoItem);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
 
         //Act
 
-        var result = controller.DeleteById(1);
+        var result = await controller.DeleteById(1);
 
         //Assert
         Assert.IsType<NoContentResult>(result);
-        var deletedItem = context.ToDoItems.Find(toDoItem.ToDoItemId);
+        var deletedItem = await context.ToDoItems.FindAsync(toDoItem.ToDoItemId);
         Assert.Null(deletedItem);
 
-         // Clean up
+        // Clean up
         context.ToDoItems.RemoveRange(context.ToDoItems);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
     }
 
     [Fact]
-    public void Delete_InvalidId_ReturnsNotFound()
+    public async Task Delete_InvalidId_ReturnsNotFound()
     {
         // Arrange
         var context = new ToDoItemsContext("Data Source=../../../IntegrationTests/data/localdb_test.db");
@@ -61,20 +61,20 @@ public class DeleteTests
             IsCompleted = false
         };
         repository.Create(toDoItem);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
 
 
 
 
         // Act
         var invalidId = -1;
-        var result = controller.DeleteById(invalidId);
+        var result = await controller.DeleteById(invalidId);
 
         // Assert
         Assert.IsType<NotFoundResult>(result);
-         // Clean up
+        // Clean up
         context.ToDoItems.RemoveRange(context.ToDoItems);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
     }
 
 

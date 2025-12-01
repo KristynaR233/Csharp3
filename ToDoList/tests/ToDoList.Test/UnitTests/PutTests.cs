@@ -13,11 +13,11 @@ namespace ToDoList.Test.UnitTests;
 public class PutTests
 {
     [Fact]
-    public void Put_UpdateByIdWhenItemUpdated_ReturnsNOContent()
+    public async Task Put_UpdateByIdWhenItemUpdated_ReturnsNOContent()
     {
 
         // Arrange
-        var repositoryMock = Substitute.For<IRepository<ToDoItem>>();
+        var repositoryMock = Substitute.For<IRepositoryAsync<ToDoItem>>();
         var toDoItem = new ToDoItem
         {
             ToDoItemId = 1,
@@ -37,17 +37,17 @@ IsCompleted: true
 
         // Act
 
-        var result = controller.UpdateById(toDoItem.ToDoItemId, request);
+        var result = await controller.UpdateById(toDoItem.ToDoItemId, request);
 
         // Assert
         Assert.IsType<NoContentResult>(result);
     }
 
     [Fact]
-    public void Put_UpdateByIdWhenIdNotFound_ReturnsNotFound()
+    public async Task Put_UpdateByIdWhenIdNotFound_ReturnsNotFound()
     {
         // Arrow
-        var repositoryMock = Substitute.For<IRepository<ToDoItem>>();
+        var repositoryMock = Substitute.For<IRepositoryAsync<ToDoItem>>();
         var controller = new ToDoItemsController(repositoryMock);
         var toDoItem = new ToDoItem
         {
@@ -68,7 +68,7 @@ IsCompleted: true
 
         // Act
         var invalidId = -36;
-        var result = controller.UpdateById(invalidId, request);
+        var result = await controller.UpdateById(invalidId, request);
 
         // Assert
         Assert.IsType<NotFoundResult>(result);

@@ -30,17 +30,16 @@ public class GetByIdTests
         };
 
         context.ToDoItems.Add(toDoItem);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
 
         // Act
-        var result = controller.ReadById(toDoItem.ToDoItemId);
-        var resultResult = result.Result;
-        var value = result.GetValue();
+        var result = await controller.ReadById(toDoItem.ToDoItemId);
+        var value = result.GetValue<ToDoItemGetResponseDto>();
 
 
 
         // Assert
-        Assert.IsType<OkObjectResult>(resultResult);
+        Assert.IsType<OkObjectResult>(result.Result);
         Assert.NotNull(value);
 
         Assert.Equal(toDoItem.ToDoItemId, value.Id);
@@ -53,13 +52,13 @@ public class GetByIdTests
 
         // Clean up
         context.ToDoItems.RemoveRange(context.ToDoItems);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
 
 
 
     }
     [Fact]
-    public void GetById_InvalidId_ReturnsNotFound()
+    public async Task GetById_InvalidId_ReturnsNotFound()
     { // Arrange
         var context = new ToDoItemsContext("Data Source=../../../IntegrationTests/data/localdb_test.db");
         var repository = new ToDoItemsRepository(context);
@@ -75,14 +74,14 @@ public class GetByIdTests
 
         // Act
         var invalidId = -36;
-        var result = controller.ReadById(invalidId);
+        var result = await controller.ReadById(invalidId);
 
         // Assert
         Assert.IsType<NotFoundResult>(result.Result);
 
         // Clean up
         context.ToDoItems.RemoveRange(context.ToDoItems);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
 
     }
 

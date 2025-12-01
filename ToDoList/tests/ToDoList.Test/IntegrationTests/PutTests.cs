@@ -13,7 +13,7 @@ public class PutTests
 {
 
     [Fact]
-    public void Put_ValidId_ReturnsNoContent()
+    public async Task Put_ValidId_ReturnsNoContent()
     {
 
         // Arrange
@@ -27,8 +27,8 @@ public class PutTests
             Description = "Popis",
             IsCompleted = false
         };
-        context.ToDoItems.Add(toDoItem);
-        context.SaveChanges();
+        await context.ToDoItems.AddAsync(toDoItem);
+        await context.SaveChangesAsync();
 
 
 
@@ -40,18 +40,18 @@ IsCompleted: true
 
         // Act
 
-        var result = controller.UpdateById(toDoItem.ToDoItemId, request);
+        var result =await controller.UpdateById(toDoItem.ToDoItemId, request);
 
         // Assert
         Assert.IsType<NoContentResult>(result);
 
-         // Clean up
+        // Clean up
         context.ToDoItems.RemoveRange(context.ToDoItems);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
     }
 
     [Fact]
-    public void Put_InvalidId_ReturnsNotFound()
+    public async Task Put_InvalidId_ReturnsNotFound()
     {
         // Arrow
         var context = new ToDoItemsContext("Data Source=../../../IntegrationTests/data/localdb_test.db");
@@ -79,11 +79,11 @@ IsCompleted: true
         var result = controller.UpdateById(invalidId, request);
 
         // Assert
-        Assert.IsType<NotFoundResult>(result);
+        Assert.IsType<NotFoundResult>(result.Result);
 
-         // Clean up
+        // Clean up
         context.ToDoItems.RemoveRange(context.ToDoItems);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
     }
 
 

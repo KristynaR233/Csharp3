@@ -14,7 +14,7 @@ public class PostTests
 {
 
     [Fact]
-    public void Post_ValidRequest_ReturnNewItem()
+    public async Task Post_ValidRequest_ReturnNewItem()
     {
         // Arrange
         var context = new ToDoItemsContext("Data Source=../../../IntegrationTests/data/localdb_test.db");
@@ -27,12 +27,14 @@ public class PostTests
         );
 
         // Act
-        var result = controller.Create(request);
-        var value = result.GetValue();
+        var result = await controller.Create(request);
+        var createdAtResult = Assert.IsType<CreatedAtActionResult>(result.Result);
+        var value = Assert.IsType<ToDoItemGetResponseDto>(createdAtResult.Value);
 
 
         // Assert
-        Assert.IsType<CreatedAtActionResult>(result.Result);
+
+
         Assert.NotNull(value);
 
         Assert.Equal(request.Description, value.Description);
@@ -41,7 +43,7 @@ public class PostTests
 
         // Clean up
         context.ToDoItems.RemoveRange(context.ToDoItems);
-        context.SaveChanges();
+       await context.SaveChangesAsync();
     }
 
 

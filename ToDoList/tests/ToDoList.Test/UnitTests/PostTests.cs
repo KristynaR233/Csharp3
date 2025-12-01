@@ -12,10 +12,10 @@ namespace ToDoList.Test.UnitTests
     {
 
         [Fact]
-        public void Post_ValidRequest_ReturnCreatedAtAction()
+        public async Task Post_ValidRequest_ReturnCreatedAtAction()
         {
             // Arrange
-            var repositoryMock = Substitute.For<IRepository<ToDoItem>>();
+            var repositoryMock = Substitute.For<IRepositoryAsync<ToDoItem>>();
             var controller = new ToDoItemsController(repositoryMock);
             var request = new ToDoItemCreateRequestDto(
                 Name: "Jmeno",
@@ -24,7 +24,7 @@ namespace ToDoList.Test.UnitTests
             );
 
             // Act
-            var result = controller.Create(request);
+            var result = await controller.Create(request);
             var value = result.GetValue();
 
 
@@ -36,11 +36,7 @@ namespace ToDoList.Test.UnitTests
             Assert.Equal(request.Name, value.Name);
             Assert.Equal(request.IsCompleted, value.IsCompleted);
         }
-        [Fact]
-        public void Post_CreateUnhandledException_ReturnsInternalServerError()
-        {
 
-        }
 
 
 

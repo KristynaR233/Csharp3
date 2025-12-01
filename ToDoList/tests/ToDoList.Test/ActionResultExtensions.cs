@@ -9,4 +9,13 @@ public static class ActionResultExtensions
     ? result.Value
     : (T?)(result.Result as ObjectResult)?.Value;
 
+    public static async Task<T?> GetValueAsync<T>(this Task<ActionResult<T>> task)
+    {
+        var result = await task;
+        return result.GetValue<T>();
+    }
+
+
+
 }
+
