@@ -33,7 +33,7 @@ public class ToDoItemsController : ControllerBase
 
         try
         {
-           await repository.Create(item);
+            await repository.CreateAsync(item);
         }
         catch (Exception ex)
         {
@@ -50,7 +50,7 @@ public class ToDoItemsController : ControllerBase
         IEnumerable<ToDoItem> itemsToGet;
         try
         {
-            itemsToGet = await repository.Read();
+            itemsToGet = await repository.ReadAsync();
 
         }
         catch (Exception ex)
@@ -72,7 +72,7 @@ public class ToDoItemsController : ControllerBase
         ToDoItem? itemToGet;
         try
         {
-            itemToGet = await repository.ReadById(toDoItemId);
+            itemToGet = await repository.ReadByIdAsync(toDoItemId);
 
         }
         catch (Exception ex)
@@ -93,13 +93,13 @@ public class ToDoItemsController : ControllerBase
 
         try
         {
-            var itemToUpdate = await repository.ReadById(toDoItemId);
+            var itemToUpdate = await repository.ReadByIdAsync(toDoItemId);
             if (itemToUpdate is null)
             {
                 return NotFound();
             }
 
-           await repository.UpdateById(updatedItem);
+            await repository.UpdateByIdAsync(updatedItem);
 
         }
         catch (Exception ex)
@@ -117,12 +117,12 @@ public class ToDoItemsController : ControllerBase
     {
         try
         {
-            var itemToDelete = await repository.ReadById(toDoItemId);
+            var itemToDelete = await repository.ReadByIdAsync(toDoItemId);
             if (itemToDelete is null)
             {
                 return NotFound();
             }
-           await repository.DeleteById(toDoItemId);
+            await repository.DeleteByIdAsync(toDoItemId);
 
         }
         catch (Exception ex)

@@ -26,7 +26,7 @@ public class DeleteTests
             Description = "Popis",
             IsCompleted = false
         };
-        repositoryMock.ReadById(1).Returns(toDoItem);
+        repositoryMock.ReadByIdAsync(1).Returns(toDoItem);
 
         //Act
 
@@ -35,8 +35,8 @@ public class DeleteTests
         //Assert
         Assert.IsType<NoContentResult>(result);
 
-        await repositoryMock.Received(1).ReadById(1);
-        await repositoryMock.Received(1).DeleteById(1);
+        await repositoryMock.Received(1).ReadByIdAsync(1);
+        await repositoryMock.Received(1).DeleteByIdAsync(1);
 
 
     }
@@ -49,7 +49,7 @@ public class DeleteTests
         // Arrange
         var repositoryMock = Substitute.For<IRepositoryAsync<ToDoItem>>();
         var controller = new ToDoItemsController(repositoryMock);
-       repositoryMock.ReadById(1).Returns((ToDoItem?)null);
+       repositoryMock.ReadByIdAsync(1).Returns((ToDoItem?)null);
 
 
         // Act
@@ -59,8 +59,8 @@ public class DeleteTests
         // Assert
         Assert.IsType<NotFoundResult>(result);
 
-        await repositoryMock.Received(1).ReadById(1);
-        await repositoryMock.DidNotReceive().DeleteById(Arg.Any<int>());
+        await repositoryMock.Received(1).ReadByIdAsync(1);
+        await repositoryMock.DidNotReceive().DeleteByIdAsync(Arg.Any<int>());
 
 
     }

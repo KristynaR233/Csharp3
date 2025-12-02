@@ -33,7 +33,7 @@ public class GetTests
             };
             var someItemList = new List<ToDoItem> {toDoItem1, toDoItem2};
 
-        repositoryMock.Read().Returns(someItemList);
+        repositoryMock.ReadAsync().Returns(someItemList);
 
 
         //Act
@@ -48,7 +48,7 @@ public class GetTests
         Assert.Equal(toDoItem1.ToDoItemId, value.First().Id);
         Assert.Equal(toDoItem1.Name, value.First().Name);
 
-       await repositoryMock.Received(1).Read();
+       await repositoryMock.Received(1).ReadAsync();
 
 
 

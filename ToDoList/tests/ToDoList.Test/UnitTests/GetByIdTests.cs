@@ -27,7 +27,7 @@ public class GetByIdTests
             Description = "Popis",
             IsCompleted = false
         };
-        repositoryMock.ReadById(1).Returns(toDoItem);
+        repositoryMock.ReadByIdAsync(1).Returns(toDoItem);
 
 
         // Act
@@ -53,7 +53,7 @@ public class GetByIdTests
         var repositoryMock = Substitute.For<IRepositoryAsync<ToDoItem>>();
         var controller = new ToDoItemsController(repositoryMock);
 
-        repositoryMock.ReadById(Arg.Any<int>()).Returns((ToDoItem?)null);
+        repositoryMock.ReadByIdAsync(Arg.Any<int>()).Returns((ToDoItem?)null);
 
         // Act
         var result = await controller.ReadById(1);
@@ -62,7 +62,7 @@ public class GetByIdTests
         // Assert
         Assert.IsType<NotFoundResult>(resultResult);
 
-        await repositoryMock.Received(1).ReadById(1);
+        await repositoryMock.Received(1).ReadByIdAsync(1);
 
 
     }

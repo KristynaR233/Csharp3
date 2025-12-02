@@ -29,7 +29,7 @@ public class DeleteTests
             Description = "Popis",
             IsCompleted = false
         };
-        repository.Create(toDoItem);
+        repository.CreateAsync(toDoItem);
         await context.SaveChangesAsync();
 
         //Act
@@ -60,7 +60,7 @@ public class DeleteTests
             Description = "Popis",
             IsCompleted = false
         };
-        repository.Create(toDoItem);
+        repository.CreateAsync(toDoItem);
         await context.SaveChangesAsync();
 
 

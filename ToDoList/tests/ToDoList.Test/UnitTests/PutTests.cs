@@ -26,7 +26,7 @@ public class PutTests
             IsCompleted = false
         };
 
-        repositoryMock.ReadById(1).Returns(toDoItem);
+        repositoryMock.ReadByIdAsync(1).Returns(toDoItem);
         var controller = new ToDoItemsController(repositoryMock);
 
         var request = new ToDoItemUpdateRequestDto(
