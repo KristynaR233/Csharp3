@@ -6,12 +6,13 @@
 <div>
     <h2>ToDo items dashboard</h2>
     <table>
-        <thead>
+        <thead class: colore: green>
             <tr>
                 <th>ID</th>
                 <th>Název</th>
                 <th>Popis</th>
                 <th>Dokončeno</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +23,7 @@
                     <td>@item.Name</td>
                     <td>@item.Description</td>
                     <td>@(item.IsCompleted ? "Dokonceny" : "Nedokonceny")</td>
+                    <td><button class="btn btn-success" @onclick="EditItem"</td>
                 </tr>
             }
         </tbody>

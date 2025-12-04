@@ -1,0 +1,22 @@
+﻿@page template:"/editToDoItem/{ItemId:int}"
+@using ToDoList.Frontend.Models
+
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<EditForm Model=ToDoItemModel" FormName="EditToDoItem" OnSubmit="Submit">
+<InputText id="Name" @bind-Value="ToDoItemModel.Name">
+
+</EditForm>
+
+@code{
+    [Parameter]
+    public int ItemId { get; set;}
+
+    public ToDoItemsView ToDoItemModel {get; set;}
+
+    public async Task Submit()
+    {
+        await Task.Delay
+    }
+}
