@@ -1,12 +1,14 @@
-﻿@using ToDoList.Frontend.Models;
+﻿@using Microsoft.AspNetCore.Mvc.Routing
+@using ToDoList.Frontend.Models;
 @using ToDoList.Frontend.Clients;
 
 @inject IToDoItemsClient toDoItemsClient;
+@inject NavigationManager NavigationManager
 
 <div>
     <h2>ToDo items dashboard</h2>
-    <table>
-        <thead class: colore: green>
+    <table class="table table-hover">
+        <thead class="table-primary">
             <tr>
                 <th>ID</th>
                 <th>Název</th>
@@ -18,12 +20,12 @@
         <tbody>
             @foreach (var item in testData)
             {
-                <tr>
+                <tr class="table-secondary">
                     <td>@item.Id</td>
                     <td>@item.Name</td>
                     <td>@item.Description</td>
                     <td>@(item.IsCompleted ? "Dokonceny" : "Nedokonceny")</td>
-                    <td><button class="btn btn-success" @onclick="EditItem"</td>
+                    <td><button class="btn btn-success" @onclick="() => EditItem(item)">Edit</button></td>
                 </tr>
             }
         </tbody>
@@ -45,6 +47,11 @@
     private void OrderByName()
     {
         testData = testData.OrderBy(item => item.Name).ToList();
+
+    }
+     private void EditItem(ToDoItemsView toDoItems)
+    {
+        NavigationManager.NavigateTo(uri: $"editToDoItem/{toDoItems.Id}");
 
     }
 

@@ -5,5 +5,5 @@ namespace ToDoList.Frontend.Clients;
 
 public interface IToDoItemsClient
 {
-    public Task<List<ToDoItemsView>> ReadItemsAsync();
+    public Task<List<ToDoItemsView>> ReadItemByIdAsync();
 }

@@ -1,22 +1,30 @@
-﻿@page template:"/editToDoItem/{ItemId:int}"
+﻿@page "/editToDoItem/{ItemId:int}"
 @using ToDoList.Frontend.Models
 
 @inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 
-<EditForm Model=ToDoItemModel" FormName="EditToDoItem" OnSubmit="Submit">
-<InputText id="Name" @bind-Value="ToDoItemModel.Name">
 
+<EditForm Model=ToDoItemModel" FormName="EditToDoItem" OnSubmit="Submit">
+    <InputText id="Name" @bind-Value="ToDoItemModel.Name"/>
+    <InputCheckbox id="IsComleted" @bind-Value="ToDoItemModel.IsCompleted"/>
 </EditForm>
 
-@code{
+@code {
+     protected override async Task OnInitializedAsync()
+    {
+        ToDoItemModel = await ToDoItemsClient.;
+
+    }
     [Parameter]
     public int ItemId { get; set;}
+
+    [SupplyParameterFromForm]
 
     public ToDoItemsView ToDoItemModel {get; set;}
 
     public async Task Submit()
     {
-        await Task.Delay
+        await Task.Delay(millisecondsDelay:500);
     }
 }
