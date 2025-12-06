@@ -33,6 +33,10 @@ namespace ToDoList.Persistence.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
+                        
+                    b.Property<string>("Category")
+                    .HasColumnType("TEXT")
+                    .IsRequired(false);
 
                     b.HasKey("ToDoItemId");
 
