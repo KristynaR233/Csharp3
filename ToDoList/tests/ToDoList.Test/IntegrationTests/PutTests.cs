@@ -25,7 +25,8 @@ public class PutTests
             ToDoItemId = 1,
             Name = "Jmeno",
             Description = "Popis",
-            IsCompleted = false
+            IsCompleted = false,
+            Category = "Prace"
         };
         await context.ToDoItems.AddAsync(toDoItem);
         await context.SaveChangesAsync();
@@ -35,7 +36,8 @@ public class PutTests
         var request = new ToDoItemUpdateRequestDto(
 Name: "Nove jmeno",
 Description: "Novy popis",
-IsCompleted: true
+IsCompleted: true,
+Category: "Domacnost"
         );
 
         // Act
@@ -62,7 +64,8 @@ IsCompleted: true
             ToDoItemId = 1,
             Name = "Jmeno",
             Description = "Popis",
-            IsCompleted = false
+            IsCompleted = false,
+            Category = "Domacnost"
         };
 
 
@@ -70,7 +73,8 @@ IsCompleted: true
         var request = new ToDoItemUpdateRequestDto(
 Name: "Nove jmeno",
 Description: "Novy popis",
-IsCompleted: true
+IsCompleted: true,
+Category: "Prace"
         );
 
 

@@ -27,7 +27,8 @@ public class DeleteTests
             ToDoItemId = 1,
             Name = "Jmeno",
             Description = "Popis",
-            IsCompleted = false
+            IsCompleted = false,
+            Category = " "
         };
         repository.CreateAsync(toDoItem);
         await context.SaveChangesAsync();
@@ -58,7 +59,8 @@ public class DeleteTests
             ToDoItemId = 1,
             Name = "Jmeno",
             Description = "Popis",
-            IsCompleted = false
+            IsCompleted = false,
+            Category = "Prace"
         };
         repository.CreateAsync(toDoItem);
         await context.SaveChangesAsync();
