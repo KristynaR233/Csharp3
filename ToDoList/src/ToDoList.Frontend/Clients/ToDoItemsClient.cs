@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using ToDoList.Domain.DTOs;
 using ToDoList.Frontend.Models;
 
@@ -54,6 +55,13 @@ public class ToDoItemsClient : IToDoItemsClient
     {
         var response = await httpClient.DeleteAsync($"api/ToDoItems/{itemId}");
         response.EnsureSuccessStatusCode();
+    }
+
+    public async Task ToggleCompleted(ToDoItemView item)
+    {
+        item.IsCompleted = !item.IsCompleted;
+        await UpdateItemAsync(item);
+
     }
 }
 

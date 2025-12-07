@@ -39,8 +39,15 @@
         NavigationManager.NavigateTo("/");
     }
 
-    public async Task DeleteItem(ToDoItemView item)
+    public async Task DeleteItem(ToDoItemView toDoItem)
     {
         await toDoItemsClient.DeleteItemAsync(ItemId);
+        NavigationManager.NavigateTo("/");
+    }
+
+    public async Task ToggleCompleted(ToDoItemView toDoItem)
+    {
+        await toDoItemsClient.UpdateItemAsync(toDoItem);
+        NavigationManager.NavigateTo("/");
     }
 }
