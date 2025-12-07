@@ -1,4 +1,5 @@
 ﻿@page "/editToDoItem/{ItemId:int}"
+@using Microsoft.Extensions.WebEncoders.Testing
 @using ToDoList.Frontend.Clients
 @using ToDoList.Frontend.Models
 
@@ -36,5 +37,10 @@
     {
         await toDoItemsClient.UpdateItemAsync(ToDoItemModel);
         NavigationManager.NavigateTo("/");
+    }
+
+    public async Task DeleteItem(ToDoItemView item)
+    {
+        await toDoItemsClient.DeleteItemAsync(ItemId);
     }
 }

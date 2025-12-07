@@ -10,32 +10,35 @@
     <table class="table table-hover">
         <thead class="table-primary">
             <tr>
-                <th>ID</th>
-                <th>Název</th>
-                <th>Popis</th>
+                <th><button @onclick="OrderByID">Order by ID</button></th>
+                <th><button @onclick="OrderByName">Order by Name</button></th>
+                <th>Description</th>
                 <th>Dokončeno</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in testData)
+            @foreach (ToDoItemView item in testData)
             {
                 <tr class="table-secondary">
                     <td>@item.Id</td>
                     <td>@item.Name</td>
                     <td>@item.Description</td>
                     <td>@(item.IsCompleted ? "Dokonceny" : "Nedokonceny")</td>
-                    <td><button class="btn btn-success" @onclick="() => EditItem(item)">Edit</button></td>
+                    <td><button class="btn btn-success" @onclick="() => EditItem(item)">Edit</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteItem(item)">Delete</button>
+
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
-    <button @onclick="OrderByID">Order by ID</button>
-    <button @onclick="OrderByName">Order by Name</button>
 </div>
 @code {
 
-    private List<ToDoItemView> testData = new();
+
+    private List<ToDoItemView> testData = new List<ToDoItemView>();
+
 
 
     private void OrderByID()
@@ -53,6 +56,11 @@
     {
         NavigationManager.NavigateTo(uri: $"editToDoItem/{toDoItems.Id}");
 
+    }
+
+    private void DeleteItem(ToDoItemView toDoItems)
+    {
+        NavigationManager.NavigateTo(uri: $"editToDoItem/{toDoItems.Id}");
     }
 
     protected override async Task OnInitializedAsync()
