@@ -39,20 +39,13 @@
 
 
 @code {
-public List<ToDoItemView> testData = new List<ToDoItemView>()
-{
-    new ToDoItemView { Id = 1, Name = "Napis ukol", Description = "domaci ukol", IsCompleted = false },
-    new ToDoItemView { Id = 2, Name = "Upect cukrovi", Description = "zadelej testa", IsCompleted = false },
-    new ToDoItemView { Id = 3, Name = "Zavolej Sarce", Description = "domluvit sraz", IsCompleted = false },
-    new ToDoItemView { Id = 4, Name = "Nakup", Description = "objednej Rohlik", IsCompleted = false },
-    new ToDoItemView { Id = 5, Name = "Nove zimni boty", Description = "zimni boty", IsCompleted = false }
-};
+public List<ToDoItemView> testData = new List<ToDoItemView>();
+
  protected override async Task OnInitializedAsync()
     {
         testData = await toDoItemsClient.ReadItemsAsync();
 
     }
-
 
     private void OrderByID()
     {
