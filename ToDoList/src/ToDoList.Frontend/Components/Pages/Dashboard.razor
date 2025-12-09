@@ -71,7 +71,7 @@ public List<ToDoItemView> testData = new List<ToDoItemView>();
 
     private async Task ToggleCompleted(ToDoItemView toDoItem)
     {
-        NavigationManager.NavigateTo(uri: $"editToDoItem/{toDoItem.Id}");
+        NavigationManager.NavigateTo(uri: $"editToDoItem/{toDoItem.IsCompleted}");
     }
 
 
