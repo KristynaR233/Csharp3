@@ -19,8 +19,8 @@ POST {{host}}:{{port}}/api/ToDoItems
 Content-Type: application/json
 
 {
-  "name": "Upect cukrovi",
-  "description": "zadelat testa",
+  "name": "koupit darky",
+  "description": "darky",
   "isCompleted": false
 }
 

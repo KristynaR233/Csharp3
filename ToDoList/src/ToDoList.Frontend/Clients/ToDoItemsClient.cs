@@ -51,9 +51,9 @@ public class ToDoItemsClient : IToDoItemsClient
         var response = await httpClient.PutAsJsonAsync($"api/ToDoItems/{item.Id}", itemRequest);
     }
 
-    public async Task DeleteItemAsync(int itemId)
+    public async Task DeleteItemAsync(ToDoItemView itemView)
     {
-        var response = await httpClient.DeleteAsync($"api/ToDoItems/{itemId}");
+        var response = await httpClient.DeleteAsync($"api/ToDoItems/{itemView.Id}");
         response.EnsureSuccessStatusCode();
     }
 
