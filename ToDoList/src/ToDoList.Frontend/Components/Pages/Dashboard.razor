@@ -25,51 +25,52 @@
                     <td>@item.Id</td>
                     <td>@item.Name</td>
                     <td>@item.Description</td>
-                    <td>@(item.IsCompleted ? "Dokonceny" : "Nedokonceny")</td>
+                    <td>@(item.IsCompleted ? "Finished" : "Unfinished")</td>
                     <td>
-                    <button class="btn btn-success" @onclick="() => EditItem(item)">Edit</button>
-                    <button class="btn btn-danger" @onclick="() => DeleteItem(item)">Delete</button>
-                    <button class="btn btn-warning" @onclick="() => ToggleCompleted(item)">@(item.IsCompleted ? "Označit jako nedokonceny" : "Označit jako dokonceny")</button>
+                        <button class="btn btn-success" @onclick="() => EditItem(item)">Edit</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteItem(item)">Delete</button>
+                        <button class="btn btn-warning" @onclick="() => ToggleCompleted(item)">@(item.IsCompleted ? "Unifinished" : "Finished")</button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-</div>toDoItem
+</div>
 
 
 @code {
-public List<ToDoItemView> testData = new List<ToDoItemView>();
+    public List<ToDoItemView> testData = new List<ToDoItemView>();
 
 
-    public void OrderByID()
+    public async Task OrderByID()
     {
         testData = testData.OrderBy(item => item.Id).ToList();
 
 
     }
-    public void OrderByName()
+    public async Task OrderByName()
     {
         testData = testData.OrderBy(item => item.Name).ToList();
 
     }
-     public void EditItem(ToDoItemView toDoItem)
+    public void EditItem(ToDoItemView toDoItem)
     {
         NavigationManager.NavigateTo($"editToDoItem/{toDoItem.Id}");
 
     }
 
-    private async Task DeleteItem(ToDoItemView item)
+    public async Task DeleteItem(ToDoItemView item)
     {
         await toDoItemsClient.DeleteItemAsync(item);
+        testData.Remove(item);
     }
 
-    private async Task ToggleCompleted(ToDoItemView toDoItem)
+    public async Task ToggleCompleted(ToDoItemView toDoItem)
     {
         toDoItem.IsCompleted = !toDoItem.IsCompleted;
         await toDoItemsClient.UpdateItemAsync(toDoItem);
     }
-     protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         testData = await toDoItemsClient.ReadItemsAsync();
 

@@ -22,10 +22,7 @@
 }
 
 @code {
-    protected override async Task OnInitializedAsync()
-    {
-        ToDoItemModel = await toDoItemsClient.ReadItemByIdAsync(ItemId);
-    }
+
 
     [Parameter]
     public int ItemId { get; set; }
@@ -39,6 +36,10 @@
         NavigationManager.NavigateTo("/");
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        ToDoItemModel = await toDoItemsClient.ReadItemByIdAsync(ItemId);
+    }
 
 
 }
