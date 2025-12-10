@@ -19,7 +19,7 @@ public class ToDoItemsClient : IToDoItemsClient
         var toDoItemViews = new List<ToDoItemView>();
         var response = await httpClient.GetFromJsonAsync<List<ToDoItemGetResponseDto>>("api/ToDoItems");
 
-        toDoItemViews = response.Select(dto => new ToDoItemView()
+        toDoItemViews = response.Select(dto => new ToDoItemView
         {
             Id = dto.Id,
             Name = dto.Name,
@@ -57,11 +57,6 @@ public class ToDoItemsClient : IToDoItemsClient
         response.EnsureSuccessStatusCode();
     }
 
-    public async Task ToggleCompleted(ToDoItemView item)
-    {
-        item.IsCompleted = !item.IsCompleted;
-        await UpdateItemAsync(item);
 
-    }
 }
 

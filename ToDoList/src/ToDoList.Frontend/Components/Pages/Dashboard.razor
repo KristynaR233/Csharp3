@@ -1,9 +1,9 @@
 ﻿﻿@using Microsoft.AspNetCore.Mvc.Routing
 @using ToDoList.Frontend.Models;
 @using ToDoList.Frontend.Clients;
-@page "/"
 
-@inject IToDoItemsClient toDoItemsClient;
+
+@inject IToDoItemsClient toDoItemsClient
 @inject NavigationManager NavigationManager
 
 <div>
@@ -29,7 +29,8 @@
                     <td>
                         <button class="btn btn-success" @onclick="() => EditItem(item)">Edit</button>
                         <button class="btn btn-danger" @onclick="() => DeleteItem(item)">Delete</button>
-                        <button class="btn btn-warning" @onclick="() => ToggleCompleted(item)">@(item.IsCompleted ? "Unifinished" : "Finished")</button>
+                        <button class="btn btn-warning" @onclick="() => ToggleCompleted(item)">@(item.IsCompleted ?
+                                                    "Unifinished" : "Finished")</button>
                     </td>
                 </tr>
             }
