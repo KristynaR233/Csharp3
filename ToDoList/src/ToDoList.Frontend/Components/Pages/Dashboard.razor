@@ -12,6 +12,7 @@
                 <th>Název</th>
                 <th>Popis</th>
                 <th>Dokončeno</th>
+                <th>Category</th>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +23,7 @@
                     <td>@item.Name</td>
                     <td>@item.Description</td>
                     <td>@(item.IsCompleted ? "Dokonceny" : "Nedokonceny")</td>
+                    <td>@item.Category</td>
                 </tr>
             }
         </tbody>
