@@ -14,7 +14,7 @@
                 <th><button @onclick="OrderByID">Order by ID</button></th>
                 <th><button @onclick="OrderByName">Order by Name</button></th>
                 <th>Description</th>
-                <th>Dokončeno</th>
+                <th>Finished</th>
                 <th>Category</th>
                 <th>Actions</th>
             </tr>
@@ -26,7 +26,14 @@
                     <td>@item.Id</td>
                     <td>@item.Name</td>
                     <td>@item.Description</td>
-                    <td>@(item.IsCompleted ? "Dokonceny" : "Nedokonceny")</td>
+                    <td>@(item.IsCompleted ? "Finished" : "Unfinished")</td>
+                    <td>@item.Category</td>
+                    <td>
+                        <button class="btn btn-success" @onclick="() => EditItem(item)">Edit</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteItem(item)">Delete</button>
+                        <button class="btn btn-warning" @onclick="() => ToggleCompleted(item)">@(item.IsCompleted ?
+                                                    "Unifinished" : "Finished")</button>
+                    </td>
                 </tr>
             }
         </tbody>
