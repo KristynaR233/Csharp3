@@ -15,9 +15,18 @@
             <label for="Name" class="form-label">Name</label>
             <InputText id="Name" @bind-Value="ToDoItemModel.Name" class="form-control" />
         </div>
-        <InputText id="Description" @bind-Value="ToDoItemModel.Description" />
-        <InputCheckbox id="IsCompleted" @bind-Value="ToDoItemModel.IsCompleted" />
-        <InputText id="Category" @bind-Value="ToDoItemModel.Category" />
+        <div class="mb-3">
+            <label for="Description" class="form-label">Description</label>
+            <InputText id="Description" @bind-Value="ToDoItemModel.Description" />
+        </div>
+        <div class="mb-3">
+            <label for="IsCompleted" class="form-label">Finished</label>
+            <InputCheckbox id="IsCompleted" @bind-Value="ToDoItemModel.IsCompleted" />
+        </div>
+        <div class="mb-3">
+            <label for="Category" class="form-label">Category</label>
+            <InputText id="Category" @bind-Value="ToDoItemModel.Category" />
+        </div>
         <button type="submit">Odeslat</button>
     </EditForm>
 }
