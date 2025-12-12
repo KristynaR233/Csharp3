@@ -29,10 +29,13 @@
                     <td>@(item.IsCompleted ? "Finished" : "Unfinished")</td>
                     <td>@item.Category</td>
                     <td>
-                        <button class="btn btn-success" @onclick="() => EditItem(item)">Edit</button>
-                        <button class="btn btn-danger" @onclick="() => DeleteItem(item)">Delete</button>
-                        <button class="btn btn-warning" @onclick="() => ToggleCompleted(item)">@(item.IsCompleted ?
-                                                    "Unifinished" : "Finished")</button>
+                        <button class="btn btn-success" @onclick="() => EditItem(item)"><i
+                                class="bi bi-pencil-square"></i></button>
+                        <button class="btn btn-danger" @onclick="() => DeleteItem(item)"><i
+                                class="bi bi-trash-fill"></i></button>
+                        <button class="btn btn-warning btn-sm" @onclick="() => ToggleCompleted(item)">
+                            <i class="bi bi-check2-square"></i> @(item.IsCompleted ? "Unfinished" : "Finished")
+                        </button>
                     </td>
                 </tr>
             }
