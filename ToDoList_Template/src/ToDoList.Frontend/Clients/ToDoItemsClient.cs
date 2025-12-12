@@ -1,9 +1,7 @@
-using System;
-using System.Data;
+namespace ToDoList.Frontend.Clients;
+
 using ToDoList.Domain.DTOs;
 using ToDoList.Frontend.Models;
-
-namespace ToDoList.Frontend.Clients;
 
 public class ToDoItemsClient : IToDoItemsClient
 {
@@ -19,13 +17,12 @@ public class ToDoItemsClient : IToDoItemsClient
         var toDoItemViews = new List<ToDoItemView>();
         var response = await httpClient.GetFromJsonAsync<List<ToDoItemGetResponseDto>>("api/ToDoItems");
 
-        toDoItemViews = response.Select(dto => new ToDoItemView
+        toDoItemViews = response.Select(dto => new ToDoItemView()
         {
             Id = dto.Id,
             Name = dto.Name,
             Description = dto.Description,
-            IsCompleted = dto.IsCompleted,
-            dto.Category
+            IsCompleted = dto.IsCompleted
         }).ToList();
 
         return toDoItemViews;
@@ -51,13 +48,4 @@ public class ToDoItemsClient : IToDoItemsClient
         var itemRequest = new ToDoItemUpdateRequestDto(item.Name, item.Description, item.IsCompleted);
         var response = await httpClient.PutAsJsonAsync($"api/ToDoItems/{item.Id}", itemRequest);
     }
-
-    public async Task DeleteItemAsync(ToDoItemView itemView)
-    {
-        var response = await httpClient.DeleteAsync($"api/ToDoItems/{itemView.Id}");
-        response.EnsureSuccessStatusCode();
-    }
-
-
 }
-

@@ -1,7 +1,6 @@
-using System;
-using ToDoList.Frontend.Models;
-
 namespace ToDoList.Frontend.Clients;
+
+using ToDoList.Frontend.Models;
 
 public interface IToDoItemsClient
 {
@@ -10,6 +9,4 @@ public interface IToDoItemsClient
     public Task<ToDoItemView?> ReadItemByIdAsync(int itemId);
 
     public Task UpdateItemAsync(ToDoItemView item);
-
-    public Task DeleteItemAsync(ToDoItemView item);
 }
