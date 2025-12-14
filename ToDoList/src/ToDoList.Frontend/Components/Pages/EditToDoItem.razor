@@ -1,6 +1,5 @@
 ﻿@page "/editToDoItem/{ItemId:int}"
 @using Microsoft.Extensions.WebEncoders.Testing
-@using System.Runtime.InteropServices
 @using ToDoList.Frontend.Clients
 @using ToDoList.Frontend.Models
 
@@ -11,24 +10,7 @@
 
 @if (ToDoItemModel is not null)
 {
-    <EditForm Model="ToDoItemModel" FormName="EditToDoItem" OnValidSubmit="Submit"> @*OnValidSubmit*@
-        <DataAnnotationsValidator />
-        <div class="mb-3">
-            <label for="Name" class="form-label">Name:</label>
-            <InputText id="Name" class="form-control w-25" @bind-Value="ToDoItemModel.Name" />
-            <ValidationMessage For="() => ToDoItemModel.Name" />
-        </div>
-        <div class="mb-3">
-            <label for="Description" class="form-label">Description:</label>
-            <InputText id="Description" class="form-control w-25" @bind-Value="ToDoItemModel.Description" />
-            <ValidationMessage For="() => ToDoItemModel.Description" />
-        </div>
-        <div class="mb-3">
-            <label for="IsCompleted" class="form-check-label">IsCompleted:</label>
-        </div>
-        <div class="mb-3">
-            <InputCheckbox id="IsCompleted" class="form-check" @bind-Value="ToDoItemModel.IsCompleted" />
-        </div>
+    <EditForm Model="ToDoItemModel" FormName="EditToDoItem" OnSubmit="Submit">
         <div class="mb-3">
             <label for="Name" class="form-label">Name</label>
             <InputText id="Name" @bind-Value="ToDoItemModel.Name" class="form-control w-25" />
@@ -67,7 +49,11 @@
         await toDoItemsClient.UpdateItemAsync(ToDoItemModel);
         NavigationManager.NavigateTo("/");
     }
-}
+
+    protected override async Task OnInitializedAsync()
+    {
+        ToDoItemModel = await toDoItemsClient.ReadItemByIdAsync(ItemId);
+    }
 
 
 }
