@@ -19,8 +19,8 @@ public class GetTests
         var repository = new ToDoItemsRepository(context);
         var controller = new ToDoItemsController(repository);
 
-        var createRequest1 = new ToDoItemCreateRequestDto("Task1", "Desc1", false);
-        var createRequest2 = new ToDoItemCreateRequestDto("Task2", "Desc2", false);
+        var createRequest1 = new ToDoItemCreateRequestDto("Task1", "Desc1", false, "");
+        var createRequest2 = new ToDoItemCreateRequestDto("Task2", "Desc2", false, "Prace");
         await controller.Create(createRequest1);
         await controller.Create(createRequest2);
 
@@ -40,7 +40,7 @@ public class GetTests
         Assert.Equal(createRequest1.Description, firstToDo.Description);
         Assert.Equal(createRequest1.IsCompleted, firstToDo.IsCompleted);
 
-         // Clean up
+        // Clean up
         context.ToDoItems.RemoveRange(context.ToDoItems);
         await context.SaveChangesAsync();
     }
@@ -49,7 +49,7 @@ public class GetTests
 
 
 
-    }
+}
 
 
 

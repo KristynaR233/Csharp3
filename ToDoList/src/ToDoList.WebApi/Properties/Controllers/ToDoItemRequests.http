@@ -19,9 +19,9 @@ POST {{host}}:{{port}}/api/ToDoItems
 Content-Type: application/json
 
 {
-  "name": "Example New Task",
-  "description": "Example New Description",
-  "isCompleted": true
+  "name": "koupit darky",
+  "description": "darky",
+  "isCompleted": false
 }
 
 ###

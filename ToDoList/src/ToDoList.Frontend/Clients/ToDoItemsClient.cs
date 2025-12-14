@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel;
+using System.Data;
 using ToDoList.Domain.DTOs;
 using ToDoList.Frontend.Models;
 
@@ -18,12 +20,13 @@ public class ToDoItemsClient : IToDoItemsClient
         var toDoItemViews = new List<ToDoItemView>();
         var response = await httpClient.GetFromJsonAsync<List<ToDoItemGetResponseDto>>("api/ToDoItems");
 
-        toDoItemViews = response.Select(dto => new ToDoItemView()
+        toDoItemViews = response.Select(dto => new ToDoItemView
         {
             Id = dto.Id,
             Name = dto.Name,
             Description = dto.Description,
-            IsCompleted = dto.IsCompleted
+            IsCompleted = dto.IsCompleted,
+            Category = dto.Category
         }).ToList();
 
         return toDoItemViews;
@@ -38,7 +41,8 @@ public class ToDoItemsClient : IToDoItemsClient
             Id = response.Id,
             Name = response.Name,
             Description = response.Description,
-            IsCompleted = response.IsCompleted
+            IsCompleted = response.IsCompleted,
+            Category = response.Category
         };
         return toDoItem;
     }
@@ -46,8 +50,16 @@ public class ToDoItemsClient : IToDoItemsClient
     public async Task UpdateItemAsync(ToDoItemView item)
     {
         // try {}
-        var itemRequest = new ToDoItemUpdateRequestDto(item.Name, item.Description, item.IsCompleted);
+        var itemRequest = new ToDoItemUpdateRequestDto(item.Name, item.Description, item.IsCompleted, item.Category);
         var response = await httpClient.PutAsJsonAsync($"api/ToDoItems/{item.Id}", itemRequest);
     }
+
+    public async Task DeleteItemAsync(ToDoItemView itemView)
+    {
+        var response = await httpClient.DeleteAsync($"api/ToDoItems/{itemView.Id}");
+        response.EnsureSuccessStatusCode();
+    }
+
+
 }
-    
+

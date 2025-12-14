@@ -1,4 +1,5 @@
 ﻿@page "/editToDoItem/{ItemId:int}"
+@using Microsoft.Extensions.WebEncoders.Testing
 @using System.Runtime.InteropServices
 @using ToDoList.Frontend.Clients
 @using ToDoList.Frontend.Models
@@ -11,16 +12,16 @@
 @if (ToDoItemModel is not null)
 {
     <EditForm Model="ToDoItemModel" FormName="EditToDoItem" OnValidSubmit="Submit"> @*OnValidSubmit*@
-    <DataAnnotationsValidator/>
+        <DataAnnotationsValidator />
         <div class="mb-3">
             <label for="Name" class="form-label">Name:</label>
             <InputText id="Name" class="form-control w-25" @bind-Value="ToDoItemModel.Name" />
-            <ValidationMessage For = "() => ToDoItemModel.Name"/>
+            <ValidationMessage For="() => ToDoItemModel.Name" />
         </div>
         <div class="mb-3">
             <label for="Description" class="form-label">Description:</label>
             <InputText id="Description" class="form-control w-25" @bind-Value="ToDoItemModel.Description" />
-            <ValidationMessage For = "() => ToDoItemModel.Description"/>
+            <ValidationMessage For="() => ToDoItemModel.Description" />
         </div>
         <div class="mb-3">
             <label for="IsCompleted" class="form-check-label">IsCompleted:</label>
@@ -29,16 +30,31 @@
             <InputCheckbox id="IsCompleted" class="form-check" @bind-Value="ToDoItemModel.IsCompleted" />
         </div>
         <div class="mb-3">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <label for="Name" class="form-label">Name</label>
+            <InputText id="Name" @bind-Value="ToDoItemModel.Name" class="form-control w-25" />
+            <ValidationMessage For="() => ToDoItemModel.Name" />
         </div>
+        <div class="mb-3">
+            <label for="Description" class="form-label">Description</label>
+            <InputText id="Description" @bind-Value="ToDoItemModel.Description" class="form-control w-25" />
+            <ValidationMessage For="() => ToDoItemModel.Description" />
+        </div>
+        <div class="mb-3">
+            <label for="IsCompleted" class="form-label">Finished</label>
+            <InputCheckbox id="IsCompleted" @bind-Value="ToDoItemModel.IsCompleted" class="form-control w-25" />
+            <ValidationMessage For="() => ToDoItemModel.IsCompleted" />
+        </div>
+        <div class="mb-3">
+            <label for="Category" class="form-label">Category</label>
+            <InputText id="Category" @bind-Value="ToDoItemModel.Category" class="form-control w-25" />
+            <ValidationMessage For="() => ToDoItemModel.Category" />
+        </div>
+        <button type="submit">Odeslat</button>
     </EditForm>
 }
 
 @code {
-    protected override async Task OnInitializedAsync()
-    {
-        ToDoItemModel = await toDoItemsClient.ReadItemByIdAsync(ItemId);
-    }
+
 
     [Parameter]
     public int ItemId { get; set; }
@@ -51,17 +67,7 @@
         await toDoItemsClient.UpdateItemAsync(ToDoItemModel);
         NavigationManager.NavigateTo("/");
     }
-
-    public delegate void ToDoItemViewProcessingDelegate(ToDoItemView item);
-ToDoItemViewProcessingDelegate SubmitDelegate;
-
-private void logSubmit (ToDoItemView item)
-{
-    Console.WriteLine("Item with id "+ item.Id +" was submitted.");
 }
-
-    
-
 
 
 }

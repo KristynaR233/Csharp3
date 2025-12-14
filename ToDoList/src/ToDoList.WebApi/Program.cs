@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ToDoList.Domain.Models;
 using ToDoList.Persistence;
 using ToDoList.Persistence.Repositories;
@@ -11,6 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IRepositoryAsync<ToDoItem>, ToDoItemsRepository>();
 }
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ToDoItemsContext>();
+    db.Database.Migrate();   // <-- migrace se spustí jen jednou při startu
+}
 
 {
     //Configure Middleware (HTTP request pipeline)

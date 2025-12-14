@@ -20,7 +20,8 @@ namespace ToDoList.Test.UnitTests
             var request = new ToDoItemCreateRequestDto(
                 Name: "Jmeno",
                 Description: "Popis",
-                IsCompleted: false
+                IsCompleted: false,
+                Category: "Prace"
             );
 
             // Act
@@ -35,6 +36,7 @@ namespace ToDoList.Test.UnitTests
             Assert.Equal(request.Description, value.Description);
             Assert.Equal(request.Name, value.Name);
             Assert.Equal(request.IsCompleted, value.IsCompleted);
+            Assert.Equal(request.Category, value.Category);
         }
 
 

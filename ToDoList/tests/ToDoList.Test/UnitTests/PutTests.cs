@@ -32,7 +32,8 @@ public class PutTests
         var request = new ToDoItemUpdateRequestDto(
 Name: "Nove jmeno",
 Description: "Novy popis",
-IsCompleted: true
+IsCompleted: true,
+Category: "Prace"
         );
 
         // Act
@@ -62,7 +63,8 @@ IsCompleted: true
         var request = new ToDoItemUpdateRequestDto(
 Name: "Nove jmeno",
 Description: "Novy popis",
-IsCompleted: true
+IsCompleted: true,
+Category: "Domacnost"
         );
 
 

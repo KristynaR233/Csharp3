@@ -23,7 +23,8 @@ public class PostTests
         var request = new ToDoItemCreateRequestDto(
             Name: "Jmeno",
             Description: "Popis",
-            IsCompleted: false
+            IsCompleted: false,
+            Category: "Prace"
         );
 
         // Act
@@ -40,10 +41,11 @@ public class PostTests
         Assert.Equal(request.Description, value.Description);
         Assert.Equal(request.Name, value.Name);
         Assert.Equal(request.IsCompleted, value.IsCompleted);
+        Assert.Equal(request.Category, value.Category);
 
         // Clean up
         context.ToDoItems.RemoveRange(context.ToDoItems);
-       await context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
 

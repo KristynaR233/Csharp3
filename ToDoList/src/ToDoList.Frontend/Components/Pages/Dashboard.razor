@@ -1,8 +1,9 @@
-﻿@using Microsoft.AspNetCore.Mvc.Routing
+﻿﻿@using Microsoft.AspNetCore.Mvc.Routing
 @using ToDoList.Frontend.Models;
 @using ToDoList.Frontend.Clients;
 
-@inject IToDoItemsClient toDoItemsClient;
+
+@inject IToDoItemsClient toDoItemsClient
 @inject NavigationManager NavigationManager
 
 <div>
@@ -10,54 +11,78 @@
     <table class="table table-hover">
         <thead class="table-primary">
             <tr>
-                <th>ID</th>
-                <th>Název</th>
-                <th>Popis</th>
-                <th>Dokončeno</th>
+                <th><button @onclick="OrderByID">Order by ID</button></th>
+                <th><button @onclick="OrderByName">Order by Name</button></th>
+                <th>Description</th>
+                <th>Finished</th>
+                <th>Category</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in testData)
+            @foreach (ToDoItemView item in testData)
             {
                 <tr class="table-secondary">
                     <td>@item.Id</td>
                     <td>@item.Name</td>
                     <td>@item.Description</td>
-                    <td>@(item.IsCompleted ? "Dokonceny" : "Nedokonceny")</td>
-                    <td><button class="btn btn-success" @onclick="() => EditItem(item)">Edit</button></td>
+                    <td>@(item.IsCompleted ? "Finished" : "Unfinished")</td>
+                    <td>@item.Category</td>
+                    <td>
+                        <div class="btn-group" >
+                        <button class="btn btn-success" @onclick="() => EditItem(item)"><i
+                                class="bi bi-pencil-square"></i></button>
+                        <button class="btn btn-danger" @onclick="() => DeleteItem(item)"><i
+                                class="bi bi-trash-fill"></i></button>
+                        <button class="btn btn-warning btn-sm" @onclick="() => ToggleCompleted(item)">
+                            <i class="bi bi-check2-square"></i> @(item.IsCompleted ? "Unfinished" : "Finished")
+                        </button>
+                        </div>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
-    <button @onclick="OrderByID">Order by ID</button>
-    <button @onclick="OrderByName">Order by Name</button>
 </div>
+
+
 @code {
+    public List<ToDoItemView> testData = new List<ToDoItemView>();
 
-    private List<ToDoItemView> testData = new();
 
-
-    private void OrderByID()
+    public async Task OrderByID()
     {
         testData = testData.OrderBy(item => item.Id).ToList();
 
 
     }
-    private void OrderByName()
+    public async Task OrderByName()
     {
         testData = testData.OrderBy(item => item.Name).ToList();
 
     }
-     private void EditItem(ToDoItemView toDoItems)
+    public void EditItem(ToDoItemView toDoItem)
     {
-        NavigationManager.NavigateTo(uri: $"editToDoItem/{toDoItems.Id}");
+        NavigationManager.NavigateTo($"editToDoItem/{toDoItem.Id}");
 
     }
 
+    public async Task DeleteItem(ToDoItemView item)
+    {
+        await toDoItemsClient.DeleteItemAsync(item);
+        testData.Remove(item);
+    }
+
+    public async Task ToggleCompleted(ToDoItemView toDoItem)
+    {
+        toDoItem.IsCompleted = !toDoItem.IsCompleted;
+        await toDoItemsClient.UpdateItemAsync(toDoItem);
+    }
     protected override async Task OnInitializedAsync()
     {
         testData = await toDoItemsClient.ReadItemsAsync();
 
     }
+
+
 }
